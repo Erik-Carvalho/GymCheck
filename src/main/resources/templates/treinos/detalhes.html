@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymCheck - Detalhes do Treino</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/"><i class="bi bi-activity"></i> GymCheck</a>
+    </div>
+</nav>
+
+<div class="container my-4">
+    <a href="/" class="btn btn-outline-secondary mb-3">
+        <i class="bi bi-arrow-left"></i> Voltar ao Menu Principal
+    </a>
+
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="fw-bold text-primary mb-1" th:text="${rotina.nome}">Nome do Treino</h2>
+            <p class="text-muted mb-0" th:text="${rotina.descricao}">Descrição da rotina</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white fw-bold py-3">
+                    <i class="bi bi-plus-circle text-primary me-2"></i> Adicionar Exercício
+                </div>
+                <div class="card-body">
+                    <form th:action="@{'/treinos/rotinas/' + ${rotina.id} + '/adicionar-exercicio'}" th:object="${novoItem}" method="post">
+
+                        <div class="mb-3">
+                            <label for="nomeExercicio" class="form-label fw-bold">Nome do Exercício</label>
+                            <input type="text" class="form-control" id="nomeExercicio" th:field="*{nomeExercicio}"
+                                   placeholder="Ex: Supino Reto, Leg Press 45..." required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="series" class="form-label">Séries</label>
+                                <input type="number" class="form-control" id="series" th:field="*{series}" min="1" placeholder="4" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="repeticoes" class="form-label">Reps</label>
+                                <input type="number" class="form-control" id="repeticoes" th:field="*{repeticoes}" min="1" placeholder="10" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="peso" class="form-label">Carga (kg)</label>
+                                <input type="number" step="0.5" class="form-control" id="peso" th:field="*{peso}" placeholder="20.0">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 fw-bold mt-2">
+                            <i class="bi bi-check-lg"></i> Adicionar ao Treino
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white fw-bold py-3">
+                    <i class="bi bi-list-task text-primary me-2"></i> Exercícios Montados
+                </div>
+                <div class="card-body p-0">
+                    <div th:if="${rotina.itens == null or rotina.itens.empty}" class="text-muted text-center py-4">
+                        Nenhum exercício adicionado a este treino ainda.
+                    </div>
+
+                    <table class="table table-hover align-middle mb-0" th:if="${rotina.itens != null and !rotina.itens.empty}">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Exercício</th>
+                            <th class="text-center">Séries</th>
+                            <th class="text-center">Repetições</th>
+                            <th class="text-center">Carga</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${rotina.itens}">
+                            <td class="fw-bold" th:text="${item.nomeExercicio}">Supino Reto</td>
+                            <td class="text-center" th:text="${item.series}">4</td>
+                            <td class="text-center" th:text="${item.repeticoes}">10</td>
+                            <td class="text-center" th:text="${item.peso != null ? item.peso + ' kg' : '-'}">20 kg</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
