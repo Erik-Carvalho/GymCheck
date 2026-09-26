@@ -22,7 +22,12 @@ Este repositório foi criado para **fins acadêmicos e de estudo**, com o objeti
 Para garantir uma interface inovadora, longe de modelos genéricos e totalmente focada na experiência do usuário em telas menores, o design do sistema foi **previamente prototipado e validado via Vercel / Tailwind CSS**.
 
 🔗 **Acesse o Protótipo do Design:** [https://gymcheck-sigma.vercel.app/]
-
+* https://gymcheck-ecf.vercel.app/cadastro
+* https://gymcheck-ecf.vercel.app/login
+* https://gymcheck-ecf.vercel.app/treinos
+* https://gymcheck-ecf.vercel.app/dieta
+* https://gymcheck-ecf.vercel.app/medidas
+* Lembrando que o objetivo é o GymCheck se tornar mobile, então a prototipagem segue o padrão mobile. Porém a versão web seguira o mesmo layout e design da versão mobile.
 ---
 
 ## 🛠️ Tecnologias Utilizadas
