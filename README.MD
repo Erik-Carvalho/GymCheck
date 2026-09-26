@@ -21,7 +21,7 @@ Este repositório foi criado para **fins acadêmicos e de estudo**, com o objeti
 
 Para garantir uma interface inovadora, longe de modelos genéricos e totalmente focada na experiência do usuário em telas menores, o design do sistema foi **previamente prototipado e validado via Vercel / Tailwind CSS**.
 
-🔗 **Acesse o Protótipo do Design:** [https://gymcheck-ecf.vercel.app/](https://gymcheck-ecf.vercel.app/)
+🔗 **Acesse o Protótipo do Design:** [https://gymcheck-sigma.vercel.app/]
 
 ---
 
