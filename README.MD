@@ -30,21 +30,23 @@ Para garantir uma interface inovadora, longe de modelos genéricos e totalmente 
 * Lembrando que o objetivo é o GymCheck se tornar mobile, então a prototipagem segue o padrão mobile. Porém a versão web seguira o mesmo layout e design da versão mobile.
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 2. Tecnologias Principais
 
-### **Backend**
-* **Java 17+**
-* **Spring Boot 3**
-* **Spring Data JPA** (Persistência e repositórios)
-* **Spring Security** (Autenticação e controle de acesso)
-* **Database:** H2 Database (Desenvolvimento/Testes) / PostgreSQL (Produção)
-
-### **Frontend & UI/UX**
-* **Thymeleaf** (Renderização dinâmica no servidor)
-* **Tailwind CSS** (Framework CSS utilitário via CDN/Custom)
-* **PWA (Progressive Web App)** (Recursos mobile nativos)
-* **Bootstrap Icons / Lucide Icons**
-
+| Categoria | Tecnologia |
+| :--- | :--- |
+| **Linguagem** | Java 17+ |
+| **Framework Backend** | Spring Boot 3 |
+| **Template Engine** | Thymeleaf (SSR) |
+| **Estilização / UI** | Tailwind CSS |
+| **Prototipagem UI** | Vercel / v0 |
+| **Arquitetura Web** | Mobile-First PWA (Service Workers & Manifest) |
+| **Acesso a Dados** | Spring Data JPA / Hibernate |
+| **Banco de Dados** | H2 Database (Dev) / PostgreSQL (Prod) |
+| **Segurança** | Spring Security |
+| **Gerenciador de Dependências** | Maven |
+| **Ambiente de Desenvolvimento** | IntelliJ IDEA / Git Bash |
+| **Controle de Versão** | Git & GitHub |
+| **Assistente de Código AI** | Gemini Code Assist |
 ---
 
 ## 📦 Como Rodar o Projeto Localmente
