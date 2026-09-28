@@ -1,98 +1,228 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymCheck - Registo de Dieta</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GymCheck — Dieta &amp; Nutrição</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#0f172a',
+                            950: '#020617'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="/"><i class="bi bi-activity"></i> GymCheck</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-door"></i> Início</a></li>
-                <li class="nav-item"><a class="nav-link" href="/treinos"><i class="bi bi-journal-check"></i> Treinos</a></li>
-                <li class="nav-item"><a class="nav-link active" href="/dieta"><i class="bi bi-egg-fried"></i> Dieta</a></li>
-                <li class="nav-item"><a class="nav-link" href="/medidas"><i class="bi bi-rulers"></i> Medidas</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<body class="min-h-screen bg-slate-950 text-white antialiased">
+    <div class="min-h-screen bg-slate-950 text-white">
+        <main class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-28">
 
-<div class="container my-4">
-    <!-- Botão de Voltar ao Menu Principal -->
-    <a href="/" class="btn btn-outline-secondary mb-3">
-        <i class="bi bi-arrow-left"></i> Voltar ao Menu Principal
-    </a>
+            <!-- Top Slogan -->
+            <div class="px-5 pt-4 text-center">
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
+                    Treine. Registe. Evolua.
+                </span>
+            </div>
 
-    <div class="row g-4">
-        <!-- Form de Registo de Refeição -->
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white fw-bold py-3">
-                    <i class="bi bi-plus-circle text-success me-2"></i> Registrar Refeição
+            <!-- Header Navigation -->
+            <header class="sticky top-0 z-10 flex items-center justify-between border-b border-white/5 bg-slate-900/80 px-5 py-4 backdrop-blur-md">
+                <a th:href="@{/}" class="flex items-center gap-2 rounded-xl bg-slate-800/60 px-3 py-2 text-sm font-medium text-slate-200 ring-1 ring-white/5 transition-colors hover:bg-slate-800 active:bg-slate-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    Voltar ao Início
+                </a>
+            </header>
+
+            <!-- Page Title -->
+            <section class="px-5 pt-6">
+                <div class="flex items-start gap-3">
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-lg shadow-indigo-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M19 12a7 7 0 0 0-14 0"/><path d="M12 3v5"/>
+                        </svg>
+                    </div>
+                    <div class="min-w-0">
+                        <h1 class="text-xl font-bold leading-tight text-white">Dieta &amp; Nutrição</h1>
+                        <span class="mt-1.5 inline-flex items-center rounded-full bg-indigo-500/15 px-2.5 py-0.5 text-xs font-medium text-indigo-300 ring-1 ring-inset ring-indigo-500/20">
+                            Acompanhe suas refeições diárias
+                        </span>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form th:action="@{/dieta}" th:object="${refeicao}" method="post">
-                        <div class="mb-3">
-                            <label for="nomeRefeicao" class="form-label">Nome da Refeição</label>
-                            <input type="text" class="form-control" id="nomeRefeicao" th:field="*{nomeRefeicao}" placeholder="Ex: Almoço, Café da Manhã" required>
+            </section>
+
+            <!-- Alertas Flash -->
+            <div class="px-5 pt-4">
+                <div th:if="${mensagemSucesso}" role="status" class="flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+                    </svg>
+                    <span th:text="${mensagemSucesso}">Sucesso</span>
+                </div>
+                <div th:if="${mensagemErro}" role="alert" class="mt-2 flex items-center gap-2.5 rounded-xl bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300 ring-1 ring-inset ring-red-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
+                    </svg>
+                    <span th:text="${mensagemErro}">Erro</span>
+                </div>
+            </div>
+
+            <!-- Form: Registrar Refeição -->
+            <section class="px-5 pt-5">
+                <div class="rounded-2xl bg-slate-800/50 p-4 ring-1 ring-white/5">
+                    <h2 class="mb-4 text-sm font-semibold text-slate-300">Registrar Refeição</h2>
+                    <form th:action="@{/dieta}" th:object="${refeicao}" method="post" class="flex flex-col gap-3">
+                        <div class="grid grid-cols-[1fr_auto] gap-3">
+                            <div class="flex flex-col gap-1.5">
+                                <label for="nomeRefeicao" class="text-xs font-medium text-slate-400">Nome da Refeição</label>
+                                <input
+                                    id="nomeRefeicao"
+                                    type="text"
+                                    th:field="*{nomeRefeicao}"
+                                    required
+                                    placeholder="Ex: Café da Manhã, Almoço..."
+                                    class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                />
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label for="horario" class="text-xs font-medium text-slate-400">Horário</label>
+                                <input
+                                    id="horario"
+                                    type="time"
+                                    th:field="*{horario}"
+                                    class="rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 [color-scheme:dark] focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                />
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="horario" class="form-label">Horário</label>
-                            <input type="time" class="form-control" id="horario" th:field="*{horario}" required>
+
+                        <div class="flex flex-col gap-1.5">
+                            <label for="descricaoAlimentos" class="text-xs font-medium text-slate-400">Alimentos / Descrição</label>
+                            <textarea
+                                id="descricaoAlimentos"
+                                rows="3"
+                                th:field="*{descricaoAlimentos}"
+                                placeholder="Ex: 3 ovos mexidos, 2 fatias de pão integral, 1 banana..."
+                                class="w-full resize-none rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            ></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="descricaoAlimentos" class="form-label">Alimentos / Descrição</label>
-                            <textarea class="form-control" id="descricaoAlimentos" th:field="*{descricaoAlimentos}" rows="3" placeholder="Ex: 200g Frango, 150g Arroz, Salada" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-success w-100 fw-bold">
-                            <i class="bi bi-check-lg me-1"></i> Salvar Refeição
+
+                        <button
+                            type="submit"
+                            class="mt-1 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-opacity hover:opacity-95 active:opacity-90"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Adicionar Refeição
                         </button>
                     </form>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- Tabela do Histórico de Refeições -->
-        <div class="col-md-8">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white fw-bold py-3">
-                    <i class="bi bi-egg-fried text-success me-2"></i> Refeições Registradas Hoje
+            <!-- Lista de Refeições Registradas -->
+            <section class="px-5 pt-6" aria-labelledby="refeicoes-lista">
+                <div class="mb-3 flex items-center justify-between">
+                    <h2 id="refeicoes-lista" class="text-sm font-semibold text-slate-300">Meu Plano / Refeições</h2>
+                    <span class="text-xs text-slate-500" th:text="${#lists.size(refeicoes)} + ' registradas'">0</span>
                 </div>
-                <div class="card-body p-0">
-                    <div th:if="${refeicoes == null or refeicoes.empty}" class="text-muted text-center py-4">
-                        Nenhuma refeição registrada para o dia de hoje.
+
+                <div th:if="${refeicoes == null or #lists.isEmpty(refeicoes)}" class="rounded-2xl border border-dashed border-white/10 p-8 text-center">
+                    <p class="text-sm text-slate-400">Nenhuma refeição registrada ainda.</p>
+                    <p class="mt-1 text-xs text-slate-500">Adicione suas refeições acima para organizar seu dia!</p>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <div th:each="ref : ${refeicoes}" class="group relative rounded-2xl bg-slate-800/50 p-4 ring-1 ring-white/5 transition-colors hover:bg-slate-800">
+                        <div class="flex items-start justify-between">
+                            <div class="flex min-w-0 flex-1 flex-col pr-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-base font-semibold text-white" th:text="${ref.nomeRefeicao}">Almoço</span>
+                                    <span th:if="${ref.horario != null}" class="inline-flex items-center gap-1 rounded-md bg-slate-700/60 px-2 py-0.5 text-[11px] font-medium text-slate-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                                        </svg>
+                                        <span th:text="${#temporals.format(ref.horario, 'HH:mm')}">12:30</span>
+                                    </span>
+                                </div>
+                                <p class="mt-2 text-xs leading-relaxed text-slate-400 whitespace-pre-line" th:text="${ref.descricaoAlimentos}">Alimentos...</p>
+                            </div>
+
+                            <form th:action="@{/dieta/deletar/{id}(id=${ref.id})}" method="post" onsubmit="return confirm('Deseja realmente remover esta refeição?');">
+                                <button
+                                    type="submit"
+                                    title="Remover refeição"
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900/60 text-slate-400 transition-colors hover:bg-red-500/20 hover:text-red-400 active:bg-slate-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
                     </div>
-
-                    <table class="table table-hover align-middle mb-0" th:if="${refeicoes != null and !refeicoes.empty}">
-                        <thead class="table-light">
-                        <tr>
-                            <th>Horário</th>
-                            <th>Refeição</th>
-                            <th>Alimentos</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="ref : ${refeicoes}">
-                            <td><span class="badge bg-secondary" th:text="${ref.horario}">12:00</span></td>
-                            <td class="fw-bold" th:text="${ref.nomeRefeicao}">Almoço</td>
-                            <td class="text-muted" th:text="${ref.descricaoAlimentos}">200g de Frango, Arroz</td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+            </section>
+        </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bottom Navigation -->
+        <nav aria-label="Navegação Inferior" class="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md border-t border-white/5 bg-slate-900/80 px-2 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
+            <ul class="flex items-center justify-around">
+                <li class="flex-1">
+                    <a th:href="@{/}" class="flex w-full flex-col items-center gap-1 py-2.5">
+                        <span class="flex h-9 w-14 items-center justify-center rounded-full text-slate-500 transition-colors hover:text-slate-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                        </span>
+                        <span class="text-[11px] font-medium text-slate-500 transition-colors">Início</span>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <a th:href="@{/treinos}" class="flex w-full flex-col items-center gap-1 py-2.5">
+                        <span class="flex h-9 w-14 items-center justify-center rounded-full text-slate-500 transition-colors hover:text-slate-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
+                            </svg>
+                        </span>
+                        <span class="text-[11px] font-medium text-slate-500 transition-colors">Treinos</span>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <a th:href="@{/dieta}" aria-current="page" class="flex w-full flex-col items-center gap-1 py-2.5">
+                        <span class="flex h-9 w-14 items-center justify-center rounded-full bg-indigo-500/15 text-indigo-400 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M19 12a7 7 0 0 0-14 0"/><path d="M12 3v5"/>
+                            </svg>
+                        </span>
+                        <span class="text-[11px] font-medium text-indigo-400 transition-colors">Dieta</span>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <a th:href="@{/medidas}" class="flex w-full flex-col items-center gap-1 py-2.5">
+                        <span class="flex h-9 w-14 items-center justify-center rounded-full text-slate-500 transition-colors hover:text-slate-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
+                            </svg>
+                        </span>
+                        <span class="text-[11px] font-medium text-slate-500 transition-colors">Medidas</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </body>
 </html>

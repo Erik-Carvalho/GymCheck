@@ -1,100 +1,242 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymCheck - Gerenciar Treinos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GymCheck — Rotinas de Treino</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#0f172a',
+                            950: '#020617'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="/"><i class="bi bi-activity"></i> GymCheck</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-door"></i> Início</a></li>
-                <li class="nav-item"><a class="nav-link active" href="/treinos"><i class="bi bi-journal-check"></i> Treinos</a></li>
-                <li class="nav-item"><a class="nav-link" href="/dieta"><i class="bi bi-egg-fried"></i> Dieta</a></li>
-                <li class="nav-item"><a class="nav-link" href="/medidas"><i class="bi bi-rulers"></i> Medidas</a></li>
+<body class="min-h-screen bg-slate-950 text-white antialiased">
+    <div class="min-h-screen bg-slate-950 text-white">
+        <main class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-28">
+
+            <!-- Top Slogan -->
+            <div class="px-5 pt-4 text-center">
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
+                    Treine. Registe. Evolua.
+                </span>
+            </div>
+
+            <!-- Header Navigation -->
+            <header class="sticky top-0 z-10 flex items-center justify-between border-b border-white/5 bg-slate-900/80 px-5 py-4 backdrop-blur-md">
+                <a th:href="@{/}" class="flex items-center gap-2 rounded-xl bg-slate-800/60 px-3 py-2 text-sm font-medium text-slate-200 ring-1 ring-white/5 transition-colors hover:bg-slate-800 active:bg-slate-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    Voltar ao Início
+                </a>
+            </header>
+
+            <!-- Page Title -->
+            <section class="px-5 pt-6">
+                <div class="flex items-start gap-3">
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-lg shadow-indigo-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
+                        </svg>
+                    </div>
+                    <div class="min-w-0">
+                        <h1 class="text-xl font-bold leading-tight text-white">Rotinas de Treino</h1>
+                        <span class="mt-1.5 inline-flex items-center rounded-full bg-indigo-500/15 px-2.5 py-0.5 text-xs font-medium text-indigo-300 ring-1 ring-inset ring-indigo-500/20">
+                            Monte suas fichas e execute
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alertas Flash -->
+            <div class="px-5 pt-4">
+                <div th:if="${mensagemSucesso}" role="status" class="flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+                    </svg>
+                    <span th:text="${mensagemSucesso}">Sucesso</span>
+                </div>
+                <div th:if="${mensagemErro}" role="alert" class="mt-2 flex items-center gap-2.5 rounded-xl bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300 ring-1 ring-inset ring-red-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
+                    </svg>
+                    <span th:text="${mensagemErro}">Erro</span>
+                </div>
+            </div>
+
+            <!-- Formulário: Criar Nova Rotina -->
+            <section class="px-5 pt-5">
+                <div class="rounded-2xl bg-slate-800/50 p-4 ring-1 ring-white/5">
+                    <h2 class="mb-4 text-sm font-semibold text-slate-300">Nova Rotina de Treino</h2>
+                    <form th:action="@{/treinos/nova}" th:object="${novaRotina}" method="post" class="flex flex-col gap-3">
+                        <div class="flex flex-col gap-1.5">
+                            <label for="nome" class="text-xs font-medium text-slate-400">Nome da Rotina</label>
+                            <input
+                                id="nome"
+                                type="text"
+                                th:field="*{nome}"
+                                required
+                                placeholder="Ex: Treino A - Peito e Tríceps"
+                                class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            />
+                        </div>
+
+                        <div class="flex flex-col gap-1.5">
+                            <label for="descricao" class="text-xs font-medium text-slate-400">Foco / Descrição</label>
+                            <input
+                                id="descricao"
+                                type="text"
+                                th:field="*{descricao}"
+                                placeholder="Ex: Foco em hipertrofia e progressão de carga"
+                                class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            />
+                        </div>
+
+                        <!-- Dias da Semana -->
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-xs font-medium text-slate-400">Dias que este treino será feito</label>
+                            <div class="grid grid-cols-2 gap-2 rounded-xl bg-slate-900/50 p-2.5 ring-1 ring-white/5">
+                                <label th:each="dia : ${todosDiasSemana}" class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        th:field="*{diasSemana}"
+                                        th:value="${dia}"
+                                        class="h-4 w-4 rounded border-white/10 bg-slate-900 text-indigo-500 accent-indigo-500 focus:ring-2 focus:ring-indigo-500"
+                                    />
+                                    <span th:text="${dia.descricao}">Segunda-feira</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-opacity hover:opacity-95 active:opacity-90"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Criar Rotina
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Lista de Rotinas Existentes -->
+            <section class="px-5 pt-6" aria-labelledby="minhas-rotinas">
+                <div class="mb-3 flex items-center justify-between">
+                    <h2 id="minhas-rotinas" class="text-sm font-semibold text-slate-300">Minhas Fichas</h2>
+                    <span class="text-xs text-slate-500" th:text="${#lists.size(rotinas)} + ' cadastradas'">0 cadastradas</span>
+                </div>
+
+                <div th:if="${rotinas == null or #lists.isEmpty(rotinas)}" class="rounded-2xl border border-dashed border-white/10 p-8 text-center">
+                    <p class="text-sm text-slate-400">Nenhuma rotina cadastrada ainda.</p>
+                    <p class="mt-1 text-xs text-slate-500">Crie sua primeira ficha no formulário acima!</p>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <div th:each="rotina : ${rotinas}" class="group relative rounded-2xl bg-slate-800/50 p-4 ring-1 ring-white/5 transition-colors hover:bg-slate-800">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1 pr-3">
+                                <h3 class="text-base font-bold text-white" th:text="${rotina.nome}">Treino A</h3>
+                                <p class="mt-0.5 text-xs text-slate-400" th:text="${rotina.descricao}">Descrição</p>
+
+                                <!-- Badges de Dias da Semana -->
+                                <div class="mt-2.5 flex flex-wrap gap-1" th:if="${rotina.diasSemana != null and !rotina.diasSemana.isEmpty()}">
+                                    <span th:each="d : ${rotina.diasSemana}"
+                                          class="inline-flex items-center rounded-md bg-indigo-500/15 px-2 py-0.5 text-[10px] font-medium text-indigo-300 ring-1 ring-inset ring-indigo-500/20"
+                                          th:text="${d.descricao}">
+                                        Segunda-feira
+                                    </span>
+                                </div>
+
+                                <div class="mt-3 flex items-center gap-3 text-xs text-slate-500">
+                                    <span th:text="${#lists.size(rotina.itens)} + ' exercícios'">0 exercícios</span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <a th:href="@{/treinos/rotinas/{id}(id=${rotina.id})}"
+                                   class="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-transform hover:scale-105 active:scale-95">
+                                    Abrir / Treinar
+                                </a>
+                                <form th:action="@{/treinos/rotinas/{id}/deletar(id=${rotina.id})}" method="post" onsubmit="return confirm('Deseja realmente excluir esta rotina?');">
+                                    <button
+                                        type="submit"
+                                        title="Excluir rotina"
+                                        class="flex w-full items-center justify-center rounded-lg py-1 text-xs text-slate-500 transition-colors hover:text-red-400"
+                                    >
+                                        Excluir
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav aria-label="Navegação Inferior" class="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md border-t border-white/5 bg-slate-900/80 px-2 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
+            <ul class="flex items-center justify-around">
+                <li class="flex-1">
+                    <a th:href="@{/}" class="flex w-full flex-col items-center gap-1 py-2.5">
+                        <span class="flex h-9 w-14 items-center justify-center rounded-full text-slate-500 transition-colors hover:text-slate-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                        </span>
+                        <span class="text-[11px] font-medium text-slate-500 transition-colors">Início</span>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <a th:href="@{/treinos}" aria-current="page" class="flex w-full flex-col items-center gap-1 py-2.5">
+                        <span class="flex h-9 w-14 items-center justify-center rounded-full bg-indigo-500/15 text-indigo-400 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
+                            </svg>
+                        </span>
+                        <span class="text-[11px] font-medium text-indigo-400 transition-colors">Treinos</span>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <a th:href="@{/dieta}" class="flex w-full flex-col items-center gap-1 py-2.5">
+                        <span class="flex h-9 w-14 items-center justify-center rounded-full text-slate-500 transition-colors hover:text-slate-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M19 12a7 7 0 0 0-14 0"/><path d="M12 3v5"/>
+                            </svg>
+                        </span>
+                        <span class="text-[11px] font-medium text-slate-500 transition-colors">Dieta</span>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <a th:href="@{/medidas}" class="flex w-full flex-col items-center gap-1 py-2.5">
+                        <span class="flex h-9 w-14 items-center justify-center rounded-full text-slate-500 transition-colors hover:text-slate-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
+                            </svg>
+                        </span>
+                        <span class="text-[11px] font-medium text-slate-500 transition-colors">Medidas</span>
+                    </a>
+                </li>
             </ul>
-        </div>
+        </nav>
     </div>
-</nav>
-
-<div class="container my-4">
-    <!-- Botão de Voltar ao Menu Principal -->
-    <a href="/" class="btn btn-outline-secondary mb-3">
-        <i class="bi bi-arrow-left"></i> Voltar ao Menu Principal
-    </a>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="fw-bold"><i class="bi bi-journal-check text-primary me-2"></i> Rotinas de Treino</h1>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNovaRotina">
-            <i class="bi bi-plus-lg me-1"></i> Nova Rotina
-        </button>
-    </div>
-
-    <div class="row g-4">
-        <div class="col-md-12" th:if="${rotinas == null or rotinas.empty}">
-            <div class="card border-0 shadow-sm text-center py-5">
-                <div class="card-body">
-                    <i class="bi bi-journal-x display-1 text-muted mb-3"></i>
-                    <h4>Nenhuma rotina cadastrada</h4>
-                    <p class="text-muted">Crie a sua primeira rotina de treino para começar a adicionar os exercícios.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4" th:each="r : ${rotinas}">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex flex-column justify-content-between">
-                    <div>
-                        <h4 class="card-title fw-bold text-primary" th:text="${r.nome}">Treino A</h4>
-                        <p class="card-text text-muted" th:text="${r.descricao}">Descrição da rotina de treino...</p>
-                    </div>
-                    <div class="mt-4">
-                        <a th:href="@{'/treinos/rotinas/' + ${r.id}}" class="btn btn-outline-primary w-100 fw-bold">
-                            <i class="bi bi-gear me-1"></i> Gerenciar Exercícios
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal para Criar Nova Rotina -->
-<div class="modal fade" id="modalNovaRotina" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title fw-bold">Criar Nova Rotina</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form th:action="@{/treinos/nova}" th:object="${novaRotina}" method="post">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="nome" class="form-label">Nome da Rotina</label>
-                        <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Ex: Treino A - Peito e Tríceps" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="descricao" class="form-label">Descrição / Observação</label>
-                        <textarea class="form-control" id="descricao" th:field="*{descricao}" rows="3" placeholder="Ex: Foco em hipertrofia"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar Rotina</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
