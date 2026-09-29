@@ -27,7 +27,6 @@ Para garantir uma interface inovadora, longe de modelos genéricos e totalmente 
 * https://gymcheck-ecf.vercel.app/treinos
 * https://gymcheck-ecf.vercel.app/dieta
 * https://gymcheck-ecf.vercel.app/medidas
-* Lembrando que o objetivo é o GymCheck se tornar mobile, então a prototipagem segue o padrão mobile. Porém a versão web seguira o mesmo layout e design da versão mobile.
 ---
 
 ## 🛠️ Tecnologias Utilizadas
