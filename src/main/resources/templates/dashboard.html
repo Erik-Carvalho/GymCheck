@@ -41,33 +41,36 @@
             <!-- Header -->
             <header class="flex items-center justify-between px-5 pt-4 pb-2">
                 <div class="flex items-center gap-3">
-                    <div class="relative">
+                    <a th:href="@{/perfil}" class="relative rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-400" aria-label="Configurações do Perfil">
                         <div class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 text-base font-bold text-white ring-2 ring-indigo-500/30">
-                            GC
+                            <span th:text="${usuarioLogado != null ? usuarioLogado.iniciais : 'GC'}">GC</span>
                         </div>
                         <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-slate-950 bg-emerald-500"></span>
-                    </div>
+                    </a>
                     <div class="flex flex-col">
                         <span class="text-xs text-slate-400">
-                            Olá, <span th:text="${usuarioLogado != null ? usuarioLogado.email : 'Atleta'}">Atleta</span>!
+                            Olá, <span th:text="${usuarioLogado != null ? usuarioLogado.nomeExibicao : 'Atleta'}">Atleta</span>!
                         </span>
                         <span class="text-lg font-bold tracking-tight text-white">GymCheck</span>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <form th:action="@{/logout}" method="post">
-                        <button
-                            type="submit"
-                            title="Sair da Conta"
-                            aria-label="Sair"
-                            class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-800/60 text-slate-300 ring-1 ring-white/5 transition-colors hover:bg-red-500/20 hover:text-red-400 active:bg-slate-700"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
+                    <details class="group relative">
+                        <summary aria-label="Configurações" class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-xl bg-slate-800/60 text-slate-300 ring-1 ring-white/5 transition-colors hover:bg-slate-700 [&::-webkit-details-marker]:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 2.94-.08-.02a1.7 1.7 0 0 0-1.76.5l-.06.06h-3.4l-.06-.08a1.7 1.7 0 0 0-1.76-.5l-.08.02-1.7-2.94.06-.06A1.7 1.7 0 0 0 9.6 15l-.08-.06v-3.4l.08-.06a1.7 1.7 0 0 0-.34-1.88l-.06-.06 1.7-2.94.08.02a1.7 1.7 0 0 0 1.76-.5l.06-.06h3.4l.06.08a1.7 1.7 0 0 0 1.76.5l.08-.02 1.7 2.94-.06.06A1.7 1.7 0 0 0 19.4 11l.08.06v3.4z" transform="translate(-2 -2)"/>
                             </svg>
-                        </button>
-                    </form>
+                        </summary>
+                        <div class="absolute right-0 top-12 z-30 w-56 overflow-hidden rounded-xl bg-slate-800 p-1.5 shadow-xl ring-1 ring-white/10">
+                            <a th:href="@{/perfil}" class="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-700">
+                                Configurações do Perfil
+                            </a>
+                            <button type="button" onclick="this.closest('details').removeAttribute('open'); openLogoutModal()" class="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-red-300 transition-colors hover:bg-red-500/10">
+                                Sair da Conta
+                            </button>
+                        </div>
+                    </details>
                 </div>
             </header>
 
@@ -303,5 +306,43 @@
             </ul>
         </nav>
     </div>
+
+    <div id="logout-modal" role="dialog" aria-modal="true" aria-labelledby="logout-modal-title" class="fixed inset-0 z-50 hidden">
+        <button type="button" class="fixed inset-0 h-full w-full bg-slate-950/80 backdrop-blur-sm" aria-label="Fechar confirmação" onclick="closeLogoutModal()"></button>
+        <div class="fixed inset-0 z-10 flex items-center justify-center p-4">
+            <div class="w-full max-w-sm overflow-hidden rounded-2xl bg-slate-900 p-6 shadow-2xl ring-1 ring-white/10">
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-500/15 text-red-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
+                    </svg>
+                </div>
+                <div class="mt-4 text-center">
+                    <h2 id="logout-modal-title" class="text-base font-bold text-white">Sair da Conta</h2>
+                    <p class="mt-2 text-sm text-slate-400">Tem certeza que deseja sair do GymCheck?</p>
+                </div>
+                <div class="mt-6 flex items-center gap-3">
+                    <button type="button" onclick="closeLogoutModal()" class="flex-1 rounded-xl bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-300 ring-1 ring-inset ring-white/5 transition-colors hover:bg-slate-700">
+                        Cancelar
+                    </button>
+                    <form th:action="@{/logout}" method="post" class="m-0 flex-1">
+                        <button type="submit" class="w-full rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-red-600/30 transition-colors hover:bg-red-500">
+                            Confirmar Saída
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openLogoutModal() {
+            document.getElementById('logout-modal').classList.remove('hidden');
+        }
+        function closeLogoutModal() {
+            document.getElementById('logout-modal').classList.add('hidden');
+        }
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') closeLogoutModal();
+        });
+    </script>
 </body>
 </html>

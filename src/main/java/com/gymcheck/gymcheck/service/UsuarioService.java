@@ -35,4 +35,15 @@ public class UsuarioService {
         }
         return usuarioRepository.findByEmailIgnoreCase(email.trim().toLowerCase());
     }
+
+    public Usuario atualizarPerfil(Usuario dadosAtualizados) {
+        Usuario usuario = getUsuarioAutenticado();
+        if (dadosAtualizados.getNome() != null) {
+            usuario.setNome(dadosAtualizados.getNome().trim());
+        }
+        usuario.setDataNascimento(dadosAtualizados.getDataNascimento());
+        usuario.setSexo(dadosAtualizados.getSexo());
+        usuario.setAltura(dadosAtualizados.getAltura());
+        return usuarioRepository.save(usuario);
+    }
 }
