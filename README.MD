@@ -27,6 +27,7 @@ Para garantir uma interface inovadora, longe de modelos genéricos e totalmente 
 * https://gymcheck-sigma.vercel.app/treinos
 * https://gymcheck-sigma.vercel.app/dieta
 * https://gymcheck-sigma.vercel.app/medidas
+
 Atualmente o projeto contem funcionalidades que a prototipagem inicial não tinha, porém o design prototipado segue o mesmo!
 ---
 
