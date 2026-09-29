@@ -1,6 +1,6 @@
 # 🏋️‍♂️ GymCheck
 
-> **"Treine. Registe. Evolua."**
+> **"Treine. Registre. Evolua."**
 
 O **GymCheck** é uma aplicação (Mobile-First Progressive Web App - PWA) desenvolvida para simplificar a gestão de treinos, monitorização nutricional e acompanhamento da evolução corporal. O projeto foi desenhado para oferecer uma experiência fluida, rápida e sem interrupções durante o treino na academia.
 
