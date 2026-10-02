@@ -3,13 +3,17 @@ package com.gymcheck.gymcheck.service;
 import com.gymcheck.gymcheck.model.*;
 import com.gymcheck.gymcheck.repository.*;
 import com.gymcheck.gymcheck.dto.ItemTreinoDTO;
+import com.gymcheck.gymcheck.dto.ReordenacaoDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,7 +44,7 @@ public class TreinoService {
 
     public List<RotinaTreino> listarTodasRotinas() {
         Usuario usuario = usuarioService.getUsuarioAutenticado();
-        return rotinaRepository.findByUsuarioIdOrderByIdAsc(usuario.getId());
+        return rotinaRepository.findByUsuarioIdOrderByOrdemAscIdAsc(usuario.getId());
     }
 
     public List<RotinaTreino> buscarTreinosDeHoje() {
@@ -58,8 +62,28 @@ public class TreinoService {
 
     public RotinaTreino salvarRotina(RotinaTreino rotina) {
         Usuario usuario = usuarioService.getUsuarioAutenticado();
+        if (rotina.getId() == null) {
+            List<RotinaTreino> rotinas = rotinaRepository.findByUsuarioIdOrderByOrdemAscIdAsc(usuario.getId());
+            rotina.setOrdem(rotinas.stream().map(RotinaTreino::getOrdem).filter(java.util.Objects::nonNull)
+                    .mapToInt(Integer::intValue).max().orElse(-1) + 1);
+        }
         rotina.setUsuario(usuario);
         return rotinaRepository.save(rotina);
+    }
+
+    @Transactional
+    public void reordenarRotinas(ReordenacaoDTO reordenacao) {
+        Usuario usuario = usuarioService.getUsuarioAutenticado();
+        List<RotinaTreino> rotinas = rotinaRepository.findByUsuarioIdOrderByOrdemAscIdAsc(usuario.getId());
+        List<Long> idsRecebidos = reordenacao == null ? null : reordenacao.ids();
+        validarIdsReordenados(idsRecebidos, rotinas.stream().map(RotinaTreino::getId).toList());
+
+        Map<Long, RotinaTreino> rotinasPorId = new HashMap<>();
+        rotinas.forEach(rotina -> rotinasPorId.put(rotina.getId(), rotina));
+        for (int ordem = 0; ordem < idsRecebidos.size(); ordem++) {
+            rotinasPorId.get(idsRecebidos.get(ordem)).setOrdem(ordem);
+        }
+        rotinaRepository.saveAll(rotinas);
     }
 
     @Transactional
@@ -78,14 +102,39 @@ public class TreinoService {
 
     public List<ItemTreino> listarItensPorRotina(Long rotinaId) {
         buscarRotinaPorId(rotinaId);
-        return itemTreinoRepository.findByRotinaTreinoId(rotinaId);
+        return itemTreinoRepository.findByRotinaTreinoIdOrderByOrdemAscIdAsc(rotinaId);
     }
 
     public ItemTreino adicionarExercicioNaRotina(Long rotinaId, ItemTreino item) {
         RotinaTreino rotina = buscarRotinaPorId(rotinaId);
         item.setId(null);
+        List<ItemTreino> itens = itemTreinoRepository.findByRotinaTreinoIdOrderByOrdemAscIdAsc(rotinaId);
+        item.setOrdem(itens.stream().map(ItemTreino::getOrdem).filter(java.util.Objects::nonNull)
+                .mapToInt(Integer::intValue).max().orElse(-1) + 1);
         item.setRotinaTreino(rotina);
         return itemTreinoRepository.save(item);
+    }
+
+    @Transactional
+    public void reordenarExercicios(Long rotinaId, ReordenacaoDTO reordenacao) {
+        buscarRotinaPorId(rotinaId);
+        List<ItemTreino> itens = itemTreinoRepository.findByRotinaTreinoIdOrderByOrdemAscIdAsc(rotinaId);
+        List<Long> idsRecebidos = reordenacao == null ? null : reordenacao.ids();
+        validarIdsReordenados(idsRecebidos, itens.stream().map(ItemTreino::getId).toList());
+
+        Map<Long, ItemTreino> itensPorId = new HashMap<>();
+        itens.forEach(item -> itensPorId.put(item.getId(), item));
+        for (int ordem = 0; ordem < idsRecebidos.size(); ordem++) {
+            itensPorId.get(idsRecebidos.get(ordem)).setOrdem(ordem);
+        }
+        itemTreinoRepository.saveAll(itens);
+    }
+
+    private void validarIdsReordenados(List<Long> idsRecebidos, List<Long> idsAtuais) {
+        if (idsRecebidos == null || idsRecebidos.size() != idsAtuais.size()
+                || !new HashSet<>(idsRecebidos).equals(new HashSet<>(idsAtuais))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A lista de itens enviada é inválida.");
+        }
     }
 
     @Transactional

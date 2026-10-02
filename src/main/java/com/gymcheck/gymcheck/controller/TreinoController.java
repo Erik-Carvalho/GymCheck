@@ -2,6 +2,7 @@ package com.gymcheck.gymcheck.controller;
 
 import jakarta.validation.Valid;
 import com.gymcheck.gymcheck.dto.ObservacaoTreinoDTO;
+import com.gymcheck.gymcheck.dto.ReordenacaoDTO;
 import com.gymcheck.gymcheck.model.DiaSemana;
 import com.gymcheck.gymcheck.model.ItemTreino;
 import com.gymcheck.gymcheck.model.RotinaTreino;
@@ -33,6 +34,13 @@ public class TreinoController {
         model.addAttribute("novaRotina", new RotinaTreino());
         model.addAttribute("todosDiasSemana", DiaSemana.values());
         return "treinos/index";
+    }
+
+    @PostMapping("/reordenar")
+    @ResponseBody
+    public ResponseEntity<Void> reordenarRotinas(@RequestBody ReordenacaoDTO reordenacao) {
+        treinoService.reordenarRotinas(reordenacao);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/nova")
@@ -75,6 +83,14 @@ public class TreinoController {
     public ResponseEntity<Void> atualizarObservacao(@PathVariable Long id,
                                                      @RequestBody ObservacaoTreinoDTO dados) {
         treinoService.atualizarObservacao(id, dados.observacao());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/reordenar-exercicios")
+    @ResponseBody
+    public ResponseEntity<Void> reordenarExercicios(@PathVariable Long id,
+                                                     @RequestBody ReordenacaoDTO reordenacao) {
+        treinoService.reordenarExercicios(id, reordenacao);
         return ResponseEntity.noContent().build();
     }
 

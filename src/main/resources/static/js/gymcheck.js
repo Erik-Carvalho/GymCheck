@@ -6,10 +6,84 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+function initializeSortableLists(root = document) {
+    if (!window.Sortable) return;
+
+    const lists = root.matches?.('.sortable-list')
+        ? [root]
+        : Array.from(root.querySelectorAll('.sortable-list'));
+
+    lists.forEach((list) => {
+        if (list.dataset.sortableInitialized === 'true') return;
+        list.dataset.sortableInitialized = 'true';
+
+        const status = list.querySelector('[data-sortable-status]');
+        const currentItems = () => Array.from(list.querySelectorAll(':scope > .sortable-item'));
+        let previousIds = [];
+
+        const sortable = new window.Sortable(list, {
+            animation: 180,
+            handle: '[data-drag-handle]',
+            draggable: '.sortable-item',
+            delay: 150,
+            delayOnTouchOnly: true,
+            touchStartThreshold: 5,
+            forceFallback: true,
+            fallbackOnBody: true,
+            fallbackTolerance: 5,
+            ghostClass: 'gymcheck-sortable-ghost',
+            chosenClass: 'gymcheck-sortable-chosen',
+            onStart: () => {
+                previousIds = currentItems().map((item) => item.dataset.id);
+            },
+            onEnd: async () => {
+                const ids = currentItems().map((item) => Number(item.dataset.id));
+                if (ids.every((id, index) => String(id) === previousIds[index])) return;
+
+                sortable.option('disabled', true);
+                list.setAttribute('aria-busy', 'true');
+                if (status) status.textContent = 'Salvando nova ordem...';
+
+                const headers = { 'Content-Type': 'application/json' };
+                const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+                const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+                if (csrfToken && csrfHeader) headers[csrfHeader] = csrfToken;
+
+                try {
+                    const response = await fetch(list.dataset.reorderUrl, {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify({ ids })
+                    });
+                    if (!response.ok) throw new Error('Não foi possível salvar a nova ordem.');
+                    if (status) status.textContent = '';
+                } catch (error) {
+                    const itemsById = new Map(currentItems().map((item) => [item.dataset.id, item]));
+                    previousIds.forEach((id) => {
+                        const item = itemsById.get(id);
+                        if (item) list.insertBefore(item, status);
+                    });
+                    if (status) {
+                        status.classList.remove('sr-only');
+                        status.textContent = error.message;
+                    }
+                } finally {
+                    list.removeAttribute('aria-busy');
+                    sortable.option('disabled', false);
+                }
+            }
+        });
+    });
+}
+
+window.initializeSortableLists = initializeSortableLists;
+
 document.addEventListener('DOMContentLoaded', () => {
     const loadingSpinnerStyles = document.createElement('style');
-    loadingSpinnerStyles.textContent = '@keyframes gymcheck-button-spin { to { transform: rotate(360deg); } } .gymcheck-loading-spinner { display: inline-block; width: 1rem; height: 1rem; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: gymcheck-button-spin 0.7s linear infinite; vertical-align: middle; margin-right: 0.5rem; } @media (prefers-reduced-motion: reduce) { .gymcheck-loading-spinner { animation-duration: 1.5s; } }';
+    loadingSpinnerStyles.textContent = '@keyframes gymcheck-button-spin { to { transform: rotate(360deg); } } .gymcheck-loading-spinner { display: inline-block; width: 1rem; height: 1rem; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: gymcheck-button-spin 0.7s linear infinite; vertical-align: middle; margin-right: 0.5rem; } .gymcheck-sortable-ghost { opacity: 0.35; box-shadow: 0 10px 25px rgb(2 6 23 / 0.3); } .gymcheck-sortable-chosen { cursor: grabbing; } @media (prefers-reduced-motion: reduce) { .gymcheck-loading-spinner { animation-duration: 1.5s; } }';
     document.head.append(loadingSpinnerStyles);
+
+    initializeSortableLists();
 
     const setButtonLoading = (button, label) => {
         if (button.dataset.originalContent === undefined) {

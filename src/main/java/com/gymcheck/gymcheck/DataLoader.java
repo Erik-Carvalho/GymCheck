@@ -44,7 +44,7 @@ public class DataLoader implements CommandLineRunner {
                     return usuarioRepository.save(u);
                 });
 
-        if (rotinaRepository.findByUsuarioIdOrderByIdAsc(demoUser.getId()).isEmpty()) {
+        if (rotinaRepository.findByUsuarioIdOrderByOrdemAscIdAsc(demoUser.getId()).isEmpty()) {
             RotinaTreino treinoA = new RotinaTreino();
             treinoA.setNome("Treino A - Peito e Tríceps");
             treinoA.setDescricao("Foco em hipertrofia e carga progressiva");

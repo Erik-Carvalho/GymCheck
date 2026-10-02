@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface ItemTreinoRepository extends JpaRepository<ItemTreino, Long> {
-    List<ItemTreino> findByRotinaTreinoId(Long rotinaId);
+    List<ItemTreino> findByRotinaTreinoIdOrderByOrdemAscIdAsc(Long rotinaId);
     Optional<ItemTreino> findByIdAndRotinaTreinoUsuarioId(Long id, Long usuarioId);
 }

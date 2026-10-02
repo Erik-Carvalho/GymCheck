@@ -25,6 +25,9 @@ public class ItemTreino {
     @PositiveOrZero(message = "O peso deve ser maior ou igual a zero.")
     private Double peso;
 
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private Integer ordem = 0;
+
     @ManyToOne
     @JoinColumn(name = "rotina_treino_id")
     private RotinaTreino rotinaTreino;
@@ -45,6 +48,9 @@ public class ItemTreino {
 
     public Double getPeso() { return peso; }
     public void setPeso(Double peso) { this.peso = peso; }
+
+    public Integer getOrdem() { return ordem; }
+    public void setOrdem(Integer ordem) { this.ordem = ordem; }
 
     public RotinaTreino getRotinaTreino() { return rotinaTreino; }
     public void setRotinaTreino(RotinaTreino rotinaTreino) { this.rotinaTreino = rotinaTreino; }

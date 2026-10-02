@@ -22,6 +22,9 @@ public class RotinaTreino {
     @Column(nullable = false)
     private String nome; // Ex: "TREINO 1", "Treino A - Peito"
 
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private Integer ordem = 0;
+
     private String descricao; // Ex: "Foco em hipertrofia"
 
     @Column(columnDefinition = "TEXT")
@@ -38,5 +41,6 @@ public class RotinaTreino {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "rotinaTreino", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("ordem ASC, id ASC")
     private List<ItemTreino> itens = new ArrayList<>();
 }

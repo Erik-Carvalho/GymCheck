@@ -25,6 +25,7 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -210,8 +211,8 @@
                     <p class="text-xs text-slate-400">Nenhum exercício adicionado a esta rotina.</p>
                 </div>
 
-                <div class="flex flex-col gap-2.5">
-                    <div th:each="item : ${rotina.itens}" data-workout-item class="flex items-start justify-between gap-3 rounded-2xl bg-slate-800/50 p-3.5 ring-1 ring-white/5">
+                <div class="sortable-list flex flex-col gap-2.5" th:attr="data-reorder-url=@{/treinos/{id}/reordenar-exercicios(id=${rotina.id})}">
+                    <div th:each="item : ${rotina.itens}" class="sortable-item flex items-start justify-between gap-3 rounded-2xl bg-slate-800/50 p-3.5 ring-1 ring-white/5" data-workout-item th:attr="data-id=${item.id}">
                         <div class="flex min-w-0 flex-1 flex-col">
                             <span class="break-words whitespace-normal text-sm font-semibold text-white" th:text="${item.nomeExercicio}">Supino Reto</span>
                             <div class="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-400">
@@ -224,6 +225,11 @@
                         </div>
 
                         <div class="flex shrink-0 items-center gap-2">
+                            <button type="button" data-drag-handle aria-label="Reordenar exercício" title="Arraste para reordenar" class="flex h-9 w-8 touch-none cursor-grab items-center justify-center rounded-lg text-slate-500 hover:bg-white/5 hover:text-slate-200 active:cursor-grabbing">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <circle cx="9" cy="5" r="1.5"/><circle cx="15" cy="5" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="15" cy="19" r="1.5"/>
+                                </svg>
+                            </button>
                             <button
                                 type="button"
                                 data-edit-item
@@ -250,6 +256,7 @@
                             </form>
                         </div>
                     </div>
+                    <p data-sortable-status role="status" aria-live="polite" class="text-xs text-red-300"></p>
                 </div>
             </section>
 
