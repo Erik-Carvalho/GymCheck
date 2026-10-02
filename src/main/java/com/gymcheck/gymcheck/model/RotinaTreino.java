@@ -24,6 +24,9 @@ public class RotinaTreino {
 
     private String descricao; // Ex: "Foco em hipertrofia"
 
+    @Column(columnDefinition = "TEXT")
+    private String observacao;
+
     @ElementCollection(targetClass = DiaSemana.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "rotina_dias_semana", joinColumns = @JoinColumn(name = "rotina_id"))
     @Enumerated(EnumType.STRING)

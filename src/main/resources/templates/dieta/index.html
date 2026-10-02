@@ -30,7 +30,7 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="min-h-screen bg-slate-950 text-white antialiased">
+<body class="min-h-screen bg-slate-950 text-white antialiased break-words whitespace-normal">
     <div class="min-h-screen bg-slate-950 text-white">
         <main class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-28">
 
@@ -152,19 +152,19 @@
                     <div th:each="ref : ${refeicoes}" class="group relative rounded-2xl bg-slate-800/50 p-4 ring-1 ring-white/5 transition-colors hover:bg-slate-800">
                         <div class="flex items-start justify-between">
                             <div class="flex min-w-0 flex-1 flex-col pr-2">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-base font-semibold text-white" th:text="${ref.nomeRefeicao}">Almoço</span>
-                                    <span th:if="${ref.horario != null}" class="inline-flex items-center gap-1 rounded-md bg-slate-700/60 px-2 py-0.5 text-[11px] font-medium text-slate-300">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span class="break-words whitespace-normal text-base font-semibold text-white" th:text="${ref.nomeRefeicao}">Almoço</span>
+                                    <span th:if="${ref.horario != null}" class="inline-flex shrink-0 items-center gap-1 rounded-md bg-slate-700/60 px-2 py-0.5 text-[11px] font-medium text-slate-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                                         </svg>
                                         <span th:text="${#temporals.format(ref.horario, 'HH:mm')}">12:30</span>
                                     </span>
                                 </div>
-                                <p class="mt-2 text-xs leading-relaxed text-slate-400 whitespace-pre-line" th:text="${ref.descricaoAlimentos}">Alimentos...</p>
+                                <p class="mt-2 break-words whitespace-pre-line text-xs leading-relaxed text-slate-400" th:text="${ref.descricaoAlimentos}">Alimentos...</p>
                             </div>
 
-                            <form th:action="@{/dieta/deletar/{id}(id=${ref.id})}" method="post" onsubmit="return confirm('Deseja realmente remover esta refeição?');">
+                            <form th:action="@{/dieta/deletar/{id}(id=${ref.id})}" method="post" onsubmit="return confirm('Deseja realmente remover esta refeição?');" class="shrink-0">
                                 <button
                                     type="submit"
                                     title="Remover refeição"
@@ -179,6 +179,7 @@
                     </div>
                 </div>
             </section>
+            <div th:replace="~{fragments/footer :: appFooter}"></div>
         </main>
 
         <!-- Bottom Navigation -->

@@ -30,7 +30,7 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="min-h-screen bg-slate-950 text-white antialiased">
+<body class="min-h-screen bg-slate-950 text-white antialiased break-words whitespace-normal">
     <div class="min-h-screen bg-slate-950 text-white">
         <main class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-28">
 
@@ -73,8 +73,8 @@
                 <a th:href="@{/perfil}" aria-label="Configurações do Perfil" class="relative mx-auto mb-3 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 text-2xl font-bold text-white shadow-xl shadow-indigo-500/30 ring-4 ring-indigo-500/20 focus:outline-none focus:ring-indigo-400">
                     <span th:text="${usuario.iniciais}">GC</span>
                 </a>
-                <h1 class="text-xl font-bold text-white" th:text="${usuario.nomeExibicao}">Meu Perfil</h1>
-                <p class="text-xs text-slate-400" th:text="${usuario.email}">email@dominio.com</p>
+                <h1 class="break-words whitespace-normal text-xl font-bold text-white" th:text="${usuario.nomeExibicao}">Meu Perfil</h1>
+                <p class="break-words whitespace-normal text-xs text-slate-400" th:text="${usuario.email}">email@dominio.com</p>
             </section>
 
             <!-- Alertas Flash -->
@@ -177,6 +177,7 @@
                     </form>
                 </div>
             </section>
+            <div th:replace="~{fragments/footer :: appFooter}"></div>
         </main>
 
         <!-- Bottom Navigation -->

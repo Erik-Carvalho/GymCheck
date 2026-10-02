@@ -1,10 +1,14 @@
 package com.gymcheck.gymcheck.controller;
 
 import jakarta.validation.Valid;
+import com.gymcheck.gymcheck.dto.ObservacaoTreinoDTO;
 import com.gymcheck.gymcheck.model.DiaSemana;
 import com.gymcheck.gymcheck.model.ItemTreino;
 import com.gymcheck.gymcheck.model.RotinaTreino;
 import com.gymcheck.gymcheck.service.TreinoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/treinos")
 public class TreinoController {
+
+    private static final Logger logger = LoggerFactory.getLogger(TreinoController.class);
 
     private final TreinoService treinoService;
 
@@ -62,6 +68,14 @@ public class TreinoController {
         } catch (RuntimeException e) {
             return "redirect:/treinos";
         }
+    }
+
+    @PatchMapping("/{id}/observacao")
+    @ResponseBody
+    public ResponseEntity<Void> atualizarObservacao(@PathVariable Long id,
+                                                     @RequestBody ObservacaoTreinoDTO dados) {
+        treinoService.atualizarObservacao(id, dados.observacao());
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/rotinas/{id}/atualizar-dias")
@@ -116,6 +130,7 @@ public class TreinoController {
             treinoService.adicionarExercicioNaRotina(id, itemTreino);
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Exercício adicionado!");
         } catch (Exception e) {
+            logger.error("Erro ao adicionar exercício à rotina {}", id, e);
             redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao adicionar exercício.");
         }
         return "redirect:/treinos/rotinas/" + id;

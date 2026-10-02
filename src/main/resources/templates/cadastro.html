@@ -30,7 +30,7 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="min-h-screen bg-slate-950 text-white antialiased">
+<body class="min-h-screen bg-slate-950 text-white antialiased break-words whitespace-normal">
     <main class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gradient-to-b from-slate-900 to-slate-950 px-6 pb-10">
         <!-- Ambient glow -->
         <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-0 mx-auto h-64 w-64 rounded-full bg-indigo-600/20 blur-3xl"></div>
@@ -131,12 +131,13 @@
             </button>
         </form>
 
-        <footer class="mt-8 text-center text-sm text-slate-400">
+        <div class="mt-8 text-center text-sm text-slate-400">
             Já possui cadastro?
             <a th:href="@{/login}" class="font-semibold text-indigo-400 transition-colors hover:text-indigo-300">
                 Fazer login
             </a>
-        </footer>
+        </div>
+        <div th:replace="~{fragments/footer :: appFooter}"></div>
     </main>
 
     <script>

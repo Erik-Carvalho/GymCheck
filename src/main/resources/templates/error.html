@@ -30,7 +30,7 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="min-h-screen bg-slate-950 text-white antialiased">
+<body class="min-h-screen bg-slate-950 text-white antialiased break-words whitespace-normal">
     <div class="min-h-screen bg-slate-950 text-white">
         <main class="relative mx-auto flex min-h-screen max-w-md flex-col justify-between bg-gradient-to-b from-slate-900 to-slate-950 px-6 py-10">
 
@@ -87,9 +87,7 @@
             </div>
 
             <!-- Rodapé -->
-            <footer class="text-center text-xs text-slate-500">
-                GymCheck — Plataforma de Gerenciamento de Treinos
-            </footer>
+            <div th:replace="~{fragments/footer :: appFooter}"></div>
         </main>
     </div>
 

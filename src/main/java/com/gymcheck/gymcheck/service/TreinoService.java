@@ -2,8 +2,11 @@ package com.gymcheck.gymcheck.service;
 
 import com.gymcheck.gymcheck.model.*;
 import com.gymcheck.gymcheck.repository.*;
+import com.gymcheck.gymcheck.dto.ItemTreinoDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -59,6 +62,13 @@ public class TreinoService {
         return rotinaRepository.save(rotina);
     }
 
+    @Transactional
+    public RotinaTreino atualizarObservacao(Long id, String observacao) {
+        RotinaTreino rotina = buscarRotinaPorId(id);
+        rotina.setObservacao(observacao);
+        return rotinaRepository.save(rotina);
+    }
+
     public void deletarRotina(Long id) {
         Usuario usuario = usuarioService.getUsuarioAutenticado();
         rotinaRepository.findByIdAndUsuarioId(id, usuario.getId()).ifPresent(rotinaRepository::delete);
@@ -75,6 +85,18 @@ public class TreinoService {
         RotinaTreino rotina = buscarRotinaPorId(rotinaId);
         item.setId(null);
         item.setRotinaTreino(rotina);
+        return itemTreinoRepository.save(item);
+    }
+
+    @Transactional
+    public ItemTreino atualizarItemTreino(Long itemId, ItemTreinoDTO dados) {
+        Usuario usuario = usuarioService.getUsuarioAutenticado();
+        ItemTreino item = itemTreinoRepository.findByIdAndRotinaTreinoUsuarioId(itemId, usuario.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Exercício não encontrado."));
+
+        item.setSeries(dados.series());
+        item.setRepeticoes(dados.repeticoes());
+        item.setPeso(dados.peso());
         return itemTreinoRepository.save(item);
     }
 

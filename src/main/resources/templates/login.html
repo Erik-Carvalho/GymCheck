@@ -30,17 +30,10 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="min-h-screen bg-slate-950 text-white antialiased">
+<body class="min-h-screen bg-slate-950 text-white antialiased break-words whitespace-normal">
     <main class="relative mx-auto flex min-h-screen max-w-md flex-col justify-center bg-gradient-to-b from-slate-900 to-slate-950 px-6 py-10">
         <!-- Ambient glow -->
         <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-0 mx-auto h-64 w-64 rounded-full bg-indigo-600/20 blur-3xl"></div>
-
-        <!-- Top Slogan -->
-        <div class="relative mb-6 text-center">
-            <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
-                Treine. Registe. Evolua.
-            </span>
-        </div>
 
         <!-- Branding -->
         <section class="relative flex flex-col items-center text-center">
@@ -50,7 +43,10 @@
                     <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
                 </svg>
             </div>
-            <h1 class="mt-4 text-2xl font-bold tracking-tight text-white">GymCheck</h1>
+            <h1 class="mt-4 text-2xl font-bold tracking-tight text-white">GYMCHECK</h1>
+            <span class="mt-2 inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
+                Treine. Registe. Evolua.
+            </span>
             <p class="mt-1 text-sm text-slate-400">Seu parceiro de treinos e evolução</p>
         </section>
 
@@ -84,7 +80,7 @@
         </div>
 
         <!-- Formulário de Login -->
-        <form th:action="@{/login}" method="post" class="relative mt-8 flex flex-col gap-4">
+        <form th:action="@{/login}" method="post" class="relative mt-8 flex flex-col gap-4" data-loading-form>
             <div class="flex flex-col gap-1.5">
                 <label for="username" class="text-xs font-medium text-slate-400">E-mail</label>
                 <div class="relative">
@@ -137,6 +133,8 @@
 
             <button
                 type="submit"
+                data-loading-submit
+                data-loading-text="Entrando..."
                 class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-opacity active:opacity-90"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -147,12 +145,13 @@
         </form>
 
         <!-- Footer / Link para Cadastro -->
-        <footer class="mt-8 text-center text-sm text-slate-400">
+        <div class="mt-8 text-center text-sm text-slate-400">
             Não tem uma conta?
             <a th:href="@{/cadastro}" class="font-semibold text-indigo-400 transition-colors hover:text-indigo-300">
                 Cadastre-se gratuitamente
             </a>
-        </footer>
+        </div>
+        <div th:replace="~{fragments/footer :: appFooter}"></div>
     </main>
 
     <script>

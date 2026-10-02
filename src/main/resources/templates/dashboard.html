@@ -30,12 +30,13 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="min-h-screen bg-slate-950 text-white antialiased">
+<body class="min-h-screen bg-slate-950 text-white antialiased break-words whitespace-normal">
     <div class="min-h-screen bg-slate-950 text-white">
         <main class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-28">
 
-            <!-- Top Slogan -->
+            <!-- Branding and Slogan -->
             <div class="px-5 pt-4 text-center">
+                <h1 class="mb-2 text-xl font-extrabold tracking-wider text-white">GYMCHECK</h1>
                 <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
                     Treine. Registe. Evolua.
                 </span>
@@ -44,17 +45,16 @@
             <!-- Header -->
             <header class="flex items-center justify-between px-5 pt-4 pb-2">
                 <div class="flex items-center gap-3">
-                    <button type="button" onclick="document.getElementById('settings-menu').open = true" class="relative rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-400" aria-label="Abrir menu de configurações">
+                    <button type="button" onclick="document.getElementById('settings-menu').open = true" class="relative shrink-0 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-400" aria-label="Abrir menu de configurações">
                         <div class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 text-base font-bold text-white ring-2 ring-indigo-500/30">
                             <span th:text="${usuarioLogado != null ? usuarioLogado.iniciais : 'GC'}">GC</span>
                         </div>
                         <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-slate-950 bg-emerald-500"></span>
                     </button>
-                    <div class="flex flex-col">
-                        <span class="text-xs text-slate-400">
+                    <div class="flex min-w-0 flex-col">
+                        <span class="break-words whitespace-normal text-xs text-slate-400">
                             Olá, <span th:text="${usuarioLogado != null ? usuarioLogado.nomeExibicao : 'Atleta'}">Atleta</span>!
                         </span>
-                        <span class="text-lg font-bold tracking-tight text-white">GymCheck</span>
                     </div>
                 </div>
 
@@ -115,7 +115,7 @@
                         </div>
                         <div class="flex flex-col">
                             <span class="text-[11px] leading-tight text-slate-400">Treino do Dia</span>
-                            <span class="mt-0.5 truncate text-sm font-bold leading-tight text-white"
+                            <span class="mt-0.5 break-words whitespace-normal text-sm font-bold leading-tight text-white"
                                   th:if="${treinosHoje != null and !treinosHoje.isEmpty()}"
                                   th:text="${treinosHoje[0].nome}">Treino A</span>
                             <span class="mt-0.5 text-xs font-medium text-slate-500 leading-tight"
@@ -167,13 +167,13 @@
                         <span class="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-300">Hoje</span>
                     </div>
                     <div th:each="treino : ${treinosHoje}" class="flex flex-col gap-3">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 class="text-base font-bold text-white" th:text="${treino.nome}">Treino A</h3>
-                                <p class="text-xs text-slate-400" th:text="${treino.descricao != null ? treino.descricao : 'Rotina ativa'}">Foco em hipertrofia</p>
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0 flex-1 break-words whitespace-normal">
+                                <h3 class="break-words whitespace-normal text-base font-bold text-white" th:text="${treino.nome}">Treino A</h3>
+                                <p class="break-words whitespace-normal text-xs text-slate-400" th:text="${treino.descricao != null ? treino.descricao : 'Rotina ativa'}">Foco em hipertrofia</p>
                             </div>
                             <a th:href="@{/treinos/rotinas/{id}(id=${treino.id})}"
-                               class="rounded-xl bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-transform hover:scale-105 active:scale-95">
+                               class="shrink-0 rounded-xl bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-transform hover:scale-105 active:scale-95">
                                 Ver Rotina
                             </a>
                         </div>
@@ -197,7 +197,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 flex-col">
                             <span class="text-base font-semibold text-white">Treinos</span>
-                            <span class="truncate text-xs text-slate-400">Gerencie e execute suas rotinas</span>
+                            <span class="break-words whitespace-normal text-xs text-slate-400">Gerencie e execute suas rotinas</span>
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-slate-500 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="m9 18 6-6-6-6"/>
@@ -214,7 +214,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 flex-col">
                             <span class="text-base font-semibold text-white">Dieta &amp; Nutrição</span>
-                            <span class="truncate text-xs text-slate-400">Acompanhe suas refeições diárias</span>
+                            <span class="break-words whitespace-normal text-xs text-slate-400">Acompanhe suas refeições diárias</span>
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-slate-500 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="m9 18 6-6-6-6"/>
@@ -231,7 +231,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 flex-col">
                             <span class="text-base font-semibold text-white">Medidas Corporais</span>
-                            <span class="truncate text-xs text-slate-400">Registre seu progresso físico</span>
+                            <span class="break-words whitespace-normal text-xs text-slate-400">Registre seu progresso físico</span>
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-slate-500 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="m9 18 6-6-6-6"/>
@@ -246,22 +246,23 @@
                     Últimos Treinos Concluídos
                 </h2>
                 <div class="flex flex-col gap-2.5">
-                    <div th:each="hist : ${ultimosTreinos}" class="flex items-center justify-between rounded-xl bg-slate-800/40 p-3 ring-1 ring-white/5">
-                        <div class="flex items-center gap-3">
-                            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400">
+                    <div th:each="hist : ${ultimosTreinos}" class="flex items-start justify-between gap-3 rounded-xl bg-slate-800/40 p-3 ring-1 ring-white/5">
+                        <div class="flex min-w-0 flex-1 items-center gap-3">
+                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <polyline points="20 6 9 17 4 12"/>
                                 </svg>
                             </div>
-                            <div class="flex flex-col">
-                                <span class="text-sm font-semibold text-white" th:text="${hist.rotina != null ? hist.rotina.nome : 'Treino Concluído'}">Treino</span>
+                            <div class="flex min-w-0 flex-1 flex-col">
+                                <span class="break-words whitespace-normal text-sm font-semibold text-white" th:text="${hist.rotina != null ? hist.rotina.nome : 'Treino Concluído'}">Treino</span>
                                 <span class="text-xs text-slate-400" th:text="${#temporals.format(hist.data, 'dd/MM/yyyy')}">01/01/2026</span>
                             </div>
                         </div>
-                        <span class="text-xs font-medium text-emerald-400">Concluído</span>
+                        <span class="shrink-0 text-xs font-medium text-emerald-400">Concluído</span>
                     </div>
                 </div>
             </section>
+            <div th:replace="~{fragments/footer :: appFooter}"></div>
         </main>
 
         <!-- Bottom Navigation -->

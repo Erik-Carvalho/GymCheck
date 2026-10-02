@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
-<body class="bg-light">
+<body class="bg-light" style="overflow-wrap: break-word; white-space: normal;">
 <div class="container my-4">
     <a href="/treinos" class="btn btn-sm btn-outline-secondary mb-3"><i class="bi bi-arrow-left"></i> Voltar para Rotinas</a>
 
@@ -18,7 +18,7 @@
         <div class="col-md-4">
             <div class="card border-0 shadow-sm p-3">
                 <h5 class="mb-3">Cadastrar Novo Exercício</h5>
-                <form th:action="@{/treinos/exercicios/salvar}" th:object="${novoExercicio}" method="post">
+                <form th:action="@{/treinos/exercicios/salvar}" th:object="${novoExercicio}" method="post" data-loading-form>
                     <div class="mb-3">
                         <label class="form-label">Nome do Exercício</label>
                         <input type="text" class="form-control" th:field="*{nome}" required placeholder="Ex: Agachamento Livre">
@@ -39,7 +39,7 @@
                         <label class="form-label">Recorde Pessoal - PR (kg)</label>
                         <input type="number" step="0.5" class="form-control" th:field="*{recordePessoalKg}" placeholder="0.0">
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Salvar Exercício</button>
+                    <button type="submit" data-loading-submit data-loading-text="Salvando exercício..." class="btn btn-primary w-100">Salvar Exercício</button>
                 </form>
             </div>
         </div>
@@ -60,8 +60,8 @@
                         </thead>
                         <tbody>
                         <tr th:each="ex : ${exercicios}">
-                            <td class="fw-bold" th:text="${ex.nome}">Supino Reto</td>
-                            <td><span class="badge bg-secondary" th:text="${ex.grupoMuscular}">Peito</span></td>
+                            <td class="fw-bold text-break" th:text="${ex.nome}">Supino Reto</td>
+                            <td><span class="badge bg-secondary text-break" th:text="${ex.grupoMuscular}">Peito</span></td>
                             <td th:text="${ex.pesoInicialKg + ' kg'}">50.0 kg</td>
                             <td class="fw-bold text-success" th:text="${ex.pesoAtualKg + ' kg'}">80.0 kg</td>
                             <td class="fw-bold text-primary" th:text="${ex.recordePessoalKg + ' kg'}">100.0 kg</td>
@@ -76,6 +76,7 @@
         </div>
     </div>
 </div>
+<div th:replace="~{fragments/footer :: appFooter}"></div>
     <script th:src="@{/js/gymcheck.js}" defer></script>
 </body>
 </html>
