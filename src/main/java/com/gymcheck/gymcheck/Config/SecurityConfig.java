@@ -28,6 +28,7 @@ public class SecurityConfig {
                                 "/h2-console/**",
                                 "/error"
                         ).permitAll()
+                        .requestMatchers("/perfil").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
