@@ -14,7 +14,7 @@ O **GymCheck** é uma aplicação web progressiva (PWA) desenvolvida em Java com
 
 * **Progressão de Cargas:** Histórico de evolução por exercício para otimização do estímulo muscular.
 
-* **Experiência PWA (Progressive Web App):** Suporte à instalação na tela inicial (Android/iOS), navegação em tela cheia e armazenamento de arquivos estáticos via Service Worker (`sw.js`).
+* **Experiência PWA (Progressive Web App):** Suporte à instalação na tela inicial (Android/iOS) sem precisar baixar na App Store ou Play store, navegação em tela cheia e armazenamento de arquivos estáticos via Service Worker (`sw.js`).
 
 * **Autenticação e Segurança:** Controle de acesso com Spring Security, senhas criptografadas (`BCryptPasswordEncoder`) e proteção contra falhas de segurança comuns (CSRF, XSS).
 
@@ -141,6 +141,8 @@ Para realizar o deploy no Render conectado ao banco PostgreSQL no Neon.tech, adi
 | `SPRING_DATASOURCE_USERNAME` | Usuário do banco no Neon | `neondb_owner` | 
 | `SPRING_DATASOURCE_PASSWORD` | Senha de acesso do Neon | `sua_senha` | 
 
+**DICA**
+*Para remover o ColdStart padrão do Render, estou utilizando o UptimeRobot que fará uma requisição a cada 5 minutos, mantendo o contêiner sempre ativo na memória.
 
 ## ✒️ Autor
 Desenvolvido por **Erik Carvalho**.
