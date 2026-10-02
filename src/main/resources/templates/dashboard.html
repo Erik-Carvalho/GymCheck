@@ -162,31 +162,6 @@
                 </div>
             </section>
 
-            <!-- Fichas de treino reordenáveis -->
-            <section th:if="${rotinas != null and !rotinas.isEmpty()}" class="px-5 pt-5" aria-labelledby="fichas-dashboard">
-                <div class="rounded-2xl bg-gradient-to-br from-indigo-500/20 via-blue-500/10 to-slate-800/50 p-4 ring-1 ring-indigo-500/30">
-                    <div class="mb-3 flex items-center justify-between">
-                        <h2 id="fichas-dashboard" class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Suas Fichas</h2>
-                        <a th:href="@{/treinos}" class="text-xs font-medium text-slate-400 hover:text-white">Ver todas</a>
-                    </div>
-                    <div class="sortable-list flex flex-col gap-2.5" th:attr="data-reorder-url=@{/treinos/reordenar}">
-                        <div th:each="treino : ${rotinas}" class="sortable-item flex items-start gap-2 rounded-xl bg-slate-900/40 p-3" th:attr="data-id=${treino.id}">
-                            <button type="button" data-drag-handle aria-label="Reordenar ficha" title="Arraste para reordenar" class="flex h-9 w-8 shrink-0 touch-none cursor-grab items-center justify-center rounded-lg text-slate-500 hover:bg-white/5 hover:text-slate-200 active:cursor-grabbing">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                    <circle cx="9" cy="5" r="1.5"/><circle cx="15" cy="5" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="15" cy="19" r="1.5"/>
-                                </svg>
-                            </button>
-                            <div class="min-w-0 flex-1 break-words whitespace-normal">
-                                <h3 class="break-words whitespace-normal text-sm font-bold text-white" th:text="${treino.nome}">Treino A</h3>
-                                <p class="break-words whitespace-normal text-xs text-slate-400" th:text="${treino.descricao != null ? treino.descricao : 'Rotina ativa'}">Foco em hipertrofia</p>
-                            </div>
-                            <a th:href="@{/treinos/rotinas/{id}(id=${treino.id})}" class="shrink-0 self-center rounded-xl bg-indigo-600 px-3 py-2 text-xs font-semibold text-white">Abrir</a>
-                        </div>
-                        <p data-sortable-status role="status" aria-live="polite" class="sr-only"></p>
-                    </div>
-                </div>
-            </section>
-
             <!-- Módulos / Acesso Rápido -->
             <section class="px-5 pt-6" aria-labelledby="acesso-rapido">
                 <h2 id="acesso-rapido" class="mb-3 text-sm font-semibold text-slate-300">
