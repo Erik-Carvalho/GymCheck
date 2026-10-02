@@ -145,7 +145,7 @@ Para realizar o deploy no Render conectado ao banco PostgreSQL no Neon.tech, adi
 | `SPRING_DATASOURCE_PASSWORD` | Senha de acesso do Neon | `sua_senha` | 
 
 **DICA**
-*Para remover o ColdStart padrão do Render, estou utilizando o UptimeRobot que fará uma requisição a cada 5 minutos, mantendo o contêiner sempre ativo na memória.
+Para remover o ColdStart padrão do Render, estou utilizando o UptimeRobot que faz uma requisição a cada 5 minutos, mantendo o contêiner sempre ativo na memória, evitando que a aplicação entre em modo Deep Sleep.
 
 ## ✒️ Autor
 Desenvolvido por **Erik Carvalho**.
