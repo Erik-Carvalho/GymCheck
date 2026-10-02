@@ -34,7 +34,7 @@ O **GymCheck** é uma aplicação web progressiva (PWA) desenvolvida em Java com
 | **Gerenciador de Build** | Maven | Automação e gerenciamento de dependências via Maven Wrapper (`mvnw`) | 
 | **Containerização** | Docker | Imagem customizada com suporte a Multi-Stage Build | 
 | **Hospedagem Cloud** | Render.com | Web Service hospedado via container Docker e automação de deploy | 
-
+| **Monitorização / Keep-Alive** | UptimeRobot | Prevenção do ColdStart do Render | 
 ## 🏗️ Arquitetura e Ambientes (Spring Profiles)
 
 A aplicação utiliza **Spring Profiles** para isolar as configurações entre o ambiente de desenvolvimento local e o ambiente de produção em nuvem:
