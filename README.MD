@@ -4,6 +4,8 @@
 
 O **GymCheck** é uma aplicação web progressiva (PWA) desenvolvida em Java com Spring Boot, projetada para substituir o uso de papéis e blocos de notas durante os treinos na academia. Com um design focado em dispositivos móveis (*mobile-first*), a aplicação permite que o atleta gerencie seu perfil corporal, acompanhe treinos, registre cargas/repetições e monitore sua evolução física com persistência segura na nuvem.
 
+Pensado para **uso próprio e para um grupo limitado de usuários**, todo o ecossistema do GymCheck foi arquitetado de forma **100% gratuita** - eliminando custos de desenvolvimento e manutenção contínua -, mas sem abrir mão da alta disponibilidade, garantindo que a aplicação permaneça online e pronta para uso a todo momento.
+
 ## 📸 Visão Geral e Funcionalidades
 
 ### 🌟 Funcionalidades Principais
@@ -35,7 +37,7 @@ O **GymCheck** é uma aplicação web progressiva (PWA) desenvolvida em Java com
 | **Gerenciador de Build** | Maven | Automação e gerenciamento de dependências via Maven Wrapper (`mvnw`) | 
 | **Containerização** | Docker | Imagem customizada com suporte a Multi-Stage Build | 
 | **Hospedagem Cloud** | Render.com | Web Service hospedado via container Docker e automação de deploy | 
-| **Monitorização / Keep-Alive** | UptimeRobot | Prevenção do ColdStart do Render | 
+| **Monitorização / Keep-Alive** | UptimeRobot | Prevenção do Cold Start do Render | 
 ## 🏗️ Arquitetura e Ambientes (Spring Profiles)
 
 A aplicação utiliza **Spring Profiles** para isolar as configurações entre o ambiente de desenvolvimento local e o ambiente de produção em nuvem:
