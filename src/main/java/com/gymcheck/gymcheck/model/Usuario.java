@@ -1,6 +1,7 @@
 package com.gymcheck.gymcheck.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
@@ -10,19 +11,25 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "O e-mail é obrigatório.")
+    @Email(message = "Informe um e-mail válido.")
     @Column(unique = true, nullable = false)
     private String email;
 
+    @NotBlank(message = "A senha é obrigatória.")
+    @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres.")
     @Column(nullable = false)
     private String senha;
 
     private String nome;
 
+    @Past(message = "A data de nascimento deve ser uma data passada.")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dataNascimento;
 
     private String sexo; // Masculino, Feminino, Outro
 
+    @Positive(message = "A altura deve ser um valor positivo.")
     private Double altura; // Altura em cm (compatível também com alturaCm)
 
     // Construtores

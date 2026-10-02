@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/icon.svg">
     <title>GymCheck — Rotinas de Treino</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -67,13 +70,13 @@
 
             <!-- Alertas Flash -->
             <div class="px-5 pt-4">
-                <div th:if="${mensagemSucesso}" role="status" class="flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
+                <div th:if="${mensagemSucesso}" role="status" data-toast="success" class="flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
                     </svg>
                     <span th:text="${mensagemSucesso}">Sucesso</span>
                 </div>
-                <div th:if="${mensagemErro}" role="alert" class="mt-2 flex items-center gap-2.5 rounded-xl bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300 ring-1 ring-inset ring-red-500/20">
+                <div th:if="${mensagemErro}" role="alert" data-toast="error" class="mt-2 flex items-center gap-2.5 rounded-xl bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300 ring-1 ring-inset ring-red-500/20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
                     </svg>
@@ -238,5 +241,6 @@
             </ul>
         </nav>
     </div>
+    <script th:src="@{/js/gymcheck.js}" defer></script>
 </body>
 </html>

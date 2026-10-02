@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/icon.svg">
     <title>GymCheck — Entrar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -73,7 +76,7 @@
             Conta criada com sucesso! Faça login para continuar.
         </div>
 
-        <div th:if="${mensagemSucesso}" role="status" class="relative mt-6 flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
+        <div th:if="${mensagemSucesso}" role="status" data-toast="success" class="relative mt-6 flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
             </svg>
@@ -162,5 +165,6 @@
             }
         }
     </script>
+    <script th:src="@{/js/gymcheck.js}" defer></script>
 </body>
 </html>

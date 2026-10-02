@@ -8,12 +8,14 @@ import com.gymcheck.gymcheck.repository.ItemTreinoRepository;
 import com.gymcheck.gymcheck.repository.RotinaTreinoRepository;
 import com.gymcheck.gymcheck.repository.UsuarioRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
 @Component
+@Profile({"dev", "local", "test"})
 public class DataLoader implements CommandLineRunner {
 
     private final RotinaTreinoRepository rotinaRepository;

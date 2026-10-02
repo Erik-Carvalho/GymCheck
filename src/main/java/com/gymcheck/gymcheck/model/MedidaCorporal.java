@@ -1,6 +1,9 @@
 package com.gymcheck.gymcheck.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
@@ -11,11 +14,18 @@ public class MedidaCorporal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "A data da medição é obrigatória.")
+    @PastOrPresent(message = "A data não pode estar no futuro.")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate data;
 
+    @Positive(message = "O peso deve ser maior que zero.")
     private Double pesoKg;
+
+    @Positive(message = "A medida da cintura deve ser maior que zero.")
     private Double cinturaCm;
+
+    @Positive(message = "A medida do braço deve ser maior que zero.")
     private Double bracoCm;
 
     @ManyToOne(fetch = FetchType.LAZY)

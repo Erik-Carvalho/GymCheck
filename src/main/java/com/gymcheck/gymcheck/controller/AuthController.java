@@ -1,10 +1,12 @@
 package com.gymcheck.gymcheck.controller;
 
+import jakarta.validation.Valid;
 import com.gymcheck.gymcheck.model.Usuario;
 import com.gymcheck.gymcheck.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -37,7 +39,14 @@ public class AuthController {
     }
 
     @PostMapping("/cadastro")
-    public String salvarUsuario(Usuario usuario, RedirectAttributes redirectAttributes) {
+    public String salvarUsuario(@Valid Usuario usuario, BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("mensagemErro",
+                    bindingResult.getFieldError().getDefaultMessage());
+            return "redirect:/cadastro";
+        }
+
         String email = usuario.getEmail();
         String senha = usuario.getSenha();
 

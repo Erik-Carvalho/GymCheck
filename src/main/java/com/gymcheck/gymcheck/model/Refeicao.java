@@ -1,6 +1,7 @@
 package com.gymcheck.gymcheck.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalTime;
 
 @Entity
@@ -10,7 +11,9 @@ public class Refeicao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "O nome da refeição é obrigatório.")
     private String nomeRefeicao;
+
     private LocalTime horario;
 
     @Column(columnDefinition = "TEXT")

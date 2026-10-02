@@ -1,5 +1,6 @@
 package com.gymcheck.gymcheck.model;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,11 +18,13 @@ public class RegistroTreino {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "A data do treino é obrigatória.")
     @Column(nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate data = LocalDate.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "A rotina do treino é obrigatória.")
     @JoinColumn(name = "rotina_id", nullable = false)
     private RotinaTreino rotina;
 

@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/icon.svg">
     <title>GymCheck — Início</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -41,12 +44,12 @@
             <!-- Header -->
             <header class="flex items-center justify-between px-5 pt-4 pb-2">
                 <div class="flex items-center gap-3">
-                    <a th:href="@{/perfil}" class="relative rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-400" aria-label="Configurações do Perfil">
+                    <button type="button" onclick="document.getElementById('settings-menu').open = true" class="relative rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-400" aria-label="Abrir menu de configurações">
                         <div class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 text-base font-bold text-white ring-2 ring-indigo-500/30">
                             <span th:text="${usuarioLogado != null ? usuarioLogado.iniciais : 'GC'}">GC</span>
                         </div>
                         <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-slate-950 bg-emerald-500"></span>
-                    </a>
+                    </button>
                     <div class="flex flex-col">
                         <span class="text-xs text-slate-400">
                             Olá, <span th:text="${usuarioLogado != null ? usuarioLogado.nomeExibicao : 'Atleta'}">Atleta</span>!
@@ -56,7 +59,7 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <details class="group relative">
+                    <details id="settings-menu" class="group relative">
                         <summary aria-label="Configurações" class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-xl bg-slate-800/60 text-slate-300 ring-1 ring-white/5 transition-colors hover:bg-slate-700 [&::-webkit-details-marker]:hidden">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M12.22 2h-.44a2 2 0 0 0-2 1.72l-.18 1.34a8 8 0 0 0-1.43.83l-1.27-.51a2 2 0 0 0-2.45.9l-.22.38a2 2 0 0 0 .45 2.54l1.04.83a8 8 0 0 0 0 1.66l-1.04.83a2 2 0 0 0-.45 2.54l.22.38a2 2 0 0 0 2.45.9l1.27-.51a8 8 0 0 0 1.43.83l.18 1.34a2 2 0 0 0 2 1.72h.44a2 2 0 0 0 2-1.72l.18-1.34a8 8 0 0 0 1.43-.83l1.27.51a2 2 0 0 0 2.45-.9l.22-.38a2 2 0 0 0-.45-2.54l-1.04-.83a8 8 0 0 0 0-1.66l1.04-.83a2 2 0 0 0 .45-2.54l-.22-.38a2 2 0 0 0-2.45-.9l-1.27.51a8 8 0 0 0-1.43-.83l-.18-1.34A2 2 0 0 0 12.22 2Z"/>
@@ -77,13 +80,13 @@
 
             <!-- Alertas / Feedback Visual -->
             <div class="px-5 pt-2">
-                <div th:if="${mensagemSucesso}" role="status" class="flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
+                <div th:if="${mensagemSucesso}" role="status" data-toast="success" class="flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
                     </svg>
                     <span th:text="${mensagemSucesso}">Ação concluída com sucesso!</span>
                 </div>
-                <div th:if="${mensagemErro}" role="alert" class="mt-2 flex items-center gap-2.5 rounded-xl bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300 ring-1 ring-inset ring-red-500/20">
+                <div th:if="${mensagemErro}" role="alert" data-toast="error" class="mt-2 flex items-center gap-2.5 rounded-xl bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300 ring-1 ring-inset ring-red-500/20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
                     </svg>
@@ -345,5 +348,6 @@
             if (event.key === 'Escape') closeLogoutModal();
         });
     </script>
+    <script th:src="@{/js/gymcheck.js}" defer></script>
 </body>
 </html>

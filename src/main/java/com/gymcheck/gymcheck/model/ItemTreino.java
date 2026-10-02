@@ -1,6 +1,9 @@
 package com.gymcheck.gymcheck.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 public class ItemTreino {
@@ -9,11 +12,17 @@ public class ItemTreino {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "O nome do exercício é obrigatório.")
     @Column(nullable = false)
     private String nomeExercicio;
 
+    @Positive(message = "O número de séries deve ser maior que zero.")
     private Integer series;
+
+    @Positive(message = "O número de repetições deve ser maior que zero.")
     private Integer repeticoes;
+
+    @PositiveOrZero(message = "O peso deve ser maior ou igual a zero.")
     private Double peso;
 
     @ManyToOne

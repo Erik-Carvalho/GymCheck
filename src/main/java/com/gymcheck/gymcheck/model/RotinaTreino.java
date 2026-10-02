@@ -1,6 +1,7 @@
 package com.gymcheck.gymcheck.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ public class RotinaTreino {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "O nome da rotina é obrigatório.")
     @Column(nullable = false)
     private String nome; // Ex: "TREINO 1", "Treino A - Peito"
 

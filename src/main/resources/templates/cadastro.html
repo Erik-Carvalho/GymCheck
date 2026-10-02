@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/icon.svg">
     <title>GymCheck — Criar Conta</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -57,7 +60,7 @@
         </section>
 
         <!-- Alertas -->
-        <div th:if="${mensagemErro}" role="alert" class="relative mt-6 flex items-center gap-2.5 rounded-xl bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300 ring-1 ring-inset ring-red-500/20">
+        <div th:if="${mensagemErro}" role="alert" data-toast="error" class="relative mt-6 flex items-center gap-2.5 rounded-xl bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300 ring-1 ring-inset ring-red-500/20">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
             </svg>
@@ -142,5 +145,6 @@
             input.type = input.type === 'password' ? 'text' : 'password';
         }
     </script>
+    <script th:src="@{/js/gymcheck.js}" defer></script>
 </body>
 </html>

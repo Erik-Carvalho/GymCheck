@@ -1,11 +1,13 @@
 package com.gymcheck.gymcheck.controller;
 
+import jakarta.validation.Valid;
 import com.gymcheck.gymcheck.model.DiaSemana;
 import com.gymcheck.gymcheck.model.ItemTreino;
 import com.gymcheck.gymcheck.model.RotinaTreino;
 import com.gymcheck.gymcheck.service.TreinoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,7 +30,14 @@ public class TreinoController {
     }
 
     @PostMapping("/nova")
-    public String criarRotina(@ModelAttribute RotinaTreino rotina, RedirectAttributes redirectAttributes) {
+    public String criarRotina(@Valid @ModelAttribute RotinaTreino rotina, BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("mensagemErro",
+                    bindingResult.getFieldError().getDefaultMessage());
+            return "redirect:/treinos";
+        }
+
         if (rotina.getNome() == null || rotina.getNome().trim().isEmpty()) {
             redirectAttributes.addFlashAttribute("mensagemErro", "O nome do treino é obrigatório!");
             return "redirect:/treinos";
@@ -72,8 +81,15 @@ public class TreinoController {
 
     @PostMapping("/rotinas/{id}/adicionar-exercicio")
     public String adicionarExercicio(@PathVariable Long id,
-                                     @ModelAttribute ItemTreino itemTreino,
+                                     @Valid @ModelAttribute ItemTreino itemTreino,
+                                     BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("mensagemErro",
+                    bindingResult.getFieldError().getDefaultMessage());
+            return "redirect:/treinos/rotinas/" + id;
+        }
+
         if (itemTreino.getNomeExercicio() == null || itemTreino.getNomeExercicio().trim().isEmpty()) {
             redirectAttributes.addFlashAttribute("mensagemErro", "O nome do exercício é obrigatório!");
             return "redirect:/treinos/rotinas/" + id;
