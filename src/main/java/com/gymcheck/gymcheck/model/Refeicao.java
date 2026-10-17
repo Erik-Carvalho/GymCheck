@@ -3,7 +3,6 @@ package com.gymcheck.gymcheck.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,19 +30,15 @@ public class Refeicao {
     private String descricaoAlimentos;
 
     @DecimalMin(value = "0.0", message = "As calorias devem ser zero ou mais.")
-    @Digits(integer = 7, fraction = 2)
     private Double calorias;
 
     @DecimalMin(value = "0.0", message = "A proteína deve ser zero ou mais.")
-    @Digits(integer = 6, fraction = 2)
     private Double proteinasGramas;
 
     @DecimalMin(value = "0.0", message = "Os carboidratos devem ser zero ou mais.")
-    @Digits(integer = 6, fraction = 2)
     private Double carboidratosGramas;
 
     @DecimalMin(value = "0.0", message = "As gorduras devem ser zero ou mais.")
-    @Digits(integer = 6, fraction = 2)
     private Double gordurasGramas;
 
     @ManyToOne(fetch = FetchType.LAZY)
