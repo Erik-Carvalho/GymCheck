@@ -143,6 +143,16 @@ Para realizar o deploy no Render conectado ao banco PostgreSQL no Neon.tech, adi
 | `SPRING_DATASOURCE_URL` | String de conexão JDBC com o Neon | `jdbc:postgresql:.....` | 
 | `SPRING_DATASOURCE_USERNAME` | Usuário do banco no Neon | `neondb_owner` | 
 | `SPRING_DATASOURCE_PASSWORD` | Senha de acesso do Neon | `sua_senha` | 
+| `GYMCHECK_BASE_URL` | URL pública usada nos links de recuperação | `https://seu-app.onrender.com` |
+| `MAIL_HOST` | Servidor SMTP para envio de e-mails | `smtp.seuprovedor.com` |
+| `MAIL_PORT` | Porta SMTP | `587` |
+| `MAIL_USERNAME` | Usuário SMTP | `seu-usuario` |
+| `MAIL_PASSWORD` | Senha ou token SMTP | `seu-token-smtp` |
+| `MAIL_FROM` | Endereço remetente verificado no provedor | `noreply@seudominio.com` |
+| `MAIL_SMTP_AUTH` | Ativa autenticação SMTP | `true` |
+| `MAIL_SMTP_STARTTLS` | Ativa STARTTLS (comum na porta 587) | `true` |
+
+Configure as credenciais SMTP como variáveis secretas no Render. Sem um servidor SMTP válido, os pedidos de recuperação continuam respondendo de forma genérica, mas os e-mails não serão entregues.
 
 **DICA**
 Para remover o ColdStart padrão do Render, estou utilizando o UptimeRobot que faz uma requisição a cada 5 minutos, mantendo o contêiner sempre ativo na memória, evitando que a aplicação entre em modo Deep Sleep.
