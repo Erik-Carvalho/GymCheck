@@ -147,5 +147,23 @@ Para realizar o deploy no Render conectado ao banco PostgreSQL no Neon.tech, adi
 **DICA**
 Para remover o ColdStart padrão do Render, estou utilizando o UptimeRobot que faz uma requisição a cada 5 minutos, mantendo o contêiner sempre ativo na memória, evitando que a aplicação entre em modo Deep Sleep.
 
+## 📲 Instalar o GymCheck no celular
+
+O GymCheck é um PWA e pode ser adicionado à tela inicial sem baixar pela Play Store ou App Store. Abra a URL publicada pelo render depois do deploy em um navegador compatível; a conexão deve usar HTTPS.
+
+### Android
+
+1. Abra o GymCheck no Chrome.
+2. Toque no menu de três pontos e escolha **Instalar aplicativo** ou **Adicionar à tela inicial**.
+3. Confirme. O ícone do GymCheck aparecerá na tela inicial e na lista de aplicativos.
+
+### iPhone ou iPad
+
+1. Abra o GymCheck no Safari.
+2. Toque em **Compartilhar** e escolha **Adicionar à Tela de Início**.
+3. Confirme o nome e toque em **Adicionar**. O ícone ficará disponível na tela inicial.
+
+Ao abrir pelo ícone, o app é exibido em modo de aplicativo. O acesso aos dados e às ações da conta continua precisando de conexão com a internet.
+
 ## ✒️ Autor
 Desenvolvido por **Erik Carvalho**.
