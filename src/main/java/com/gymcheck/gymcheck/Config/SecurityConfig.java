@@ -26,6 +26,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/login",
                                 "/cadastro",
+                                "/recuperar-senha",
+                                "/redefinir-senha",
                                 "/manifest.json",
                                 "/sw.js",
                                 "/icon.svg",

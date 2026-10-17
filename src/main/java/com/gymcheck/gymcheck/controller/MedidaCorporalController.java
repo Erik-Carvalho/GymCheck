@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.Clock;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
@@ -16,9 +18,11 @@ import java.util.List;
 public class MedidaCorporalController {
 
     private final MedidaCorporalService medidaCorporalService;
+    private final Clock clock;
 
-    public MedidaCorporalController(MedidaCorporalService medidaCorporalService) {
+    public MedidaCorporalController(MedidaCorporalService medidaCorporalService, Clock clock) {
         this.medidaCorporalService = medidaCorporalService;
+        this.clock = clock;
     }
 
     @GetMapping
@@ -36,7 +40,9 @@ public class MedidaCorporalController {
         model.addAttribute("graficoPeso", cronologicas.stream().map(MedidaCorporal::getPesoKg).toList());
         model.addAttribute("graficoCintura", cronologicas.stream().map(MedidaCorporal::getCinturaCm).toList());
         model.addAttribute("graficoBraco", cronologicas.stream().map(MedidaCorporal::getBracoCm).toList());
-        model.addAttribute("medida", new MedidaCorporal());
+        MedidaCorporal medida = new MedidaCorporal();
+        medida.setData(LocalDate.now(clock));
+        model.addAttribute("medida", medida);
         return "medidas/index";
     }
 

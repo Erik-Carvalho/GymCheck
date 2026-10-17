@@ -21,7 +21,7 @@ public class RegistroTreino {
     @NotNull(message = "A data do treino é obrigatória.")
     @Column(nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate data = LocalDate.now();
+    private LocalDate data;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "A rotina do treino é obrigatória.")

@@ -9,14 +9,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.Clock;
+import java.time.LocalDate;
+
 @Controller
 @RequestMapping("/dieta")
 public class RefeicaoController {
 
     private final RefeicaoService refeicaoService;
+    private final Clock clock;
 
-    public RefeicaoController(RefeicaoService refeicaoService) {
+    public RefeicaoController(RefeicaoService refeicaoService, Clock clock) {
         this.refeicaoService = refeicaoService;
+        this.clock = clock;
     }
 
     @GetMapping
@@ -26,7 +31,9 @@ public class RefeicaoController {
         model.addAttribute("refeicoes", refeicoes);
         model.addAttribute("refeicoesHoje", refeicoesHoje);
         model.addAttribute("nutricaoHoje", refeicaoService.resumir(refeicoesHoje));
-        model.addAttribute("refeicao", new Refeicao());
+        Refeicao refeicao = new Refeicao();
+        refeicao.setData(LocalDate.now(clock));
+        model.addAttribute("refeicao", refeicao);
         return "dieta/index";
     }
 

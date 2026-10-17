@@ -6,6 +6,7 @@ import com.gymcheck.gymcheck.dto.ResumoNutricionalDTO;
 import com.gymcheck.gymcheck.repository.RefeicaoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Function;
@@ -15,10 +16,12 @@ public class RefeicaoService {
 
     private final RefeicaoRepository refeicaoRepository;
     private final UsuarioService usuarioService;
+    private final Clock clock;
 
-    public RefeicaoService(RefeicaoRepository refeicaoRepository, UsuarioService usuarioService) {
+    public RefeicaoService(RefeicaoRepository refeicaoRepository, UsuarioService usuarioService, Clock clock) {
         this.refeicaoRepository = refeicaoRepository;
         this.usuarioService = usuarioService;
+        this.clock = clock;
     }
 
     public List<Refeicao> listarTodas() {
@@ -28,7 +31,7 @@ public class RefeicaoService {
 
     public List<Refeicao> buscarRefeicoesDeHoje() {
         Usuario usuario = usuarioService.getUsuarioAutenticado();
-        return refeicaoRepository.findByUsuarioIdAndDataOrderByHorarioAsc(usuario.getId(), LocalDate.now());
+        return refeicaoRepository.findByUsuarioIdAndDataOrderByHorarioAsc(usuario.getId(), LocalDate.now(clock));
     }
 
     public ResumoNutricionalDTO resumir(List<Refeicao> refeicoes) {

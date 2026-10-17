@@ -5,12 +5,14 @@ import com.gymcheck.gymcheck.repository.*;
 import com.gymcheck.gymcheck.dto.ItemTreinoDTO;
 import com.gymcheck.gymcheck.dto.ProgressaoTreinoDTO;
 import com.gymcheck.gymcheck.dto.ReordenacaoDTO;
+import com.gymcheck.gymcheck.dto.RegistroTreinoDetalheDTO;
 import com.gymcheck.gymcheck.dto.SessaoTreinoForm;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -31,19 +33,22 @@ public class TreinoService {
     private final ExercicioRepository exercicioRepository;
     private final SerieRepository serieRepository;
     private final UsuarioService usuarioService;
+    private final Clock clock;
 
     public TreinoService(RotinaTreinoRepository rotinaRepository,
                          ItemTreinoRepository itemTreinoRepository,
                          RegistroTreinoRepository registroTreinoRepository,
                          ExercicioRepository exercicioRepository,
                          SerieRepository serieRepository,
-                         UsuarioService usuarioService) {
+                         UsuarioService usuarioService,
+                         Clock clock) {
         this.rotinaRepository = rotinaRepository;
         this.itemTreinoRepository = itemTreinoRepository;
         this.registroTreinoRepository = registroTreinoRepository;
         this.exercicioRepository = exercicioRepository;
         this.serieRepository = serieRepository;
         this.usuarioService = usuarioService;
+        this.clock = clock;
     }
 
     // --- MÉTODOS DE ROTINAS DE TREINO ---
@@ -68,7 +73,7 @@ public class TreinoService {
     }
 
     public List<RotinaTreino> buscarTreinosDeHoje() {
-        DiaSemana diaAtual = DiaSemana.fromDayOfWeek(LocalDate.now().getDayOfWeek());
+        DiaSemana diaAtual = DiaSemana.fromDayOfWeek(LocalDate.now(clock).getDayOfWeek());
         return listarTodasRotinas().stream()
                 .filter(r -> r.getDiasSemana() != null && r.getDiasSemana().contains(diaAtual))
                 .collect(Collectors.toList());
@@ -182,6 +187,35 @@ public class TreinoService {
         return registroTreinoRepository.findByUsuarioIdOrderByDataDesc(usuario.getId());
     }
 
+        public Map<Long, Long> buscarRegistrosHojePorRotina() {
+        Usuario usuario = usuarioService.getUsuarioAutenticado();
+        Map<Long, Long> registrosPorRotina = new LinkedHashMap<>();
+        registroTreinoRepository.findByUsuarioIdAndDataOrderByIdDesc(usuario.getId(), LocalDate.now(clock))
+            .forEach(registro -> registrosPorRotina.putIfAbsent(registro.getRotina().getId(), registro.getId()));
+        return registrosPorRotina;
+        }
+
+        public RegistroTreinoDetalheDTO buscarRegistroTreino(Long registroId) {
+        Usuario usuario = usuarioService.getUsuarioAutenticado();
+        RegistroTreino registro = registroTreinoRepository.findByIdAndUsuarioId(registroId, usuario.getId())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro de treino não encontrado."));
+
+        Map<Long, List<Serie>> seriesPorExercicio = registro.getSeries().stream()
+            .collect(Collectors.groupingBy(serie -> serie.getExercicio().getId(), LinkedHashMap::new, Collectors.toList()));
+        List<RegistroTreinoDetalheDTO.ExercicioRegistradoDTO> exercicios = seriesPorExercicio.values().stream()
+            .map(series -> new RegistroTreinoDetalheDTO.ExercicioRegistradoDTO(
+                series.get(0).getExercicio().getNome(),
+                series.stream()
+                    .sorted(java.util.Comparator.comparing(Serie::getNumeroSerie))
+                    .map(serie -> new RegistroTreinoDetalheDTO.SerieRegistradaDTO(
+                        serie.getNumeroSerie(), serie.getRepeticoes(), serie.getPesoKg()))
+                    .toList()))
+            .toList();
+
+        return new RegistroTreinoDetalheDTO(
+            registro.getData(), registro.getRotina().getNome(), registro.getObservacoesDia(), exercicios);
+        }
+
     public ProgressaoTreinoDTO buscarProgressaoCarga(Long rotinaId) {
         Usuario usuario = usuarioService.getUsuarioAutenticado();
         buscarRotinaPorId(rotinaId);
@@ -255,7 +289,7 @@ public class TreinoService {
         }
 
         RegistroTreino registro = new RegistroTreino();
-        registro.setData(LocalDate.now());
+        registro.setData(LocalDate.now(clock));
         registro.setRotina(rotina);
         registro.setUsuario(usuario);
         registro.setObservacoesDia(sessaoForm.getObservacoesDia());

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#020617">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/icon.svg">
+    <title>GymCheck — Registro do Treino</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#0f172a',
+                            950: '#020617'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-white antialiased">
+<main class="mx-auto min-h-screen max-w-3xl px-4 pb-10 pt-5 sm:px-6 lg:px-8">
+    <header class="flex items-center justify-between border-b border-white/5 pb-4">
+        <a th:href="@{/}" class="inline-flex items-center gap-2 text-sm font-medium text-slate-300 transition-colors hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Dashboard
+        </a>
+        <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Treino concluído</span>
+    </header>
+
+    <section class="py-7 sm:py-9">
+        <p class="text-xs font-semibold uppercase tracking-wider text-emerald-400" th:text="${#temporals.format(registro.data, 'dd/MM/yyyy')}">17/10/2026</p>
+        <h1 class="mt-2 break-words text-2xl font-bold tracking-tight text-white sm:text-3xl" th:text="${registro.rotinaNome}">Treino A</h1>
+        <p class="mt-1 text-sm text-slate-400">Séries, repetições e cargas registradas nesta sessão.</p>
+    </section>
+
+    <section class="flex flex-col gap-3" aria-label="Exercícios realizados">
+        <article th:each="exercicio : ${registro.exercicios}" class="rounded-xl border border-white/10 bg-slate-900/70 p-4">
+            <h2 class="break-words text-base font-semibold text-white" th:text="${exercicio.nome}">Supino reto</h2>
+            <div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                <div th:each="serie : ${exercicio.series}" class="rounded-lg bg-slate-950/80 p-3">
+                    <p class="text-[10px] font-medium uppercase tracking-wide text-slate-500" th:text="'Série ' + ${serie.numeroSerie}">Série 1</p>
+                    <p class="mt-1 text-sm font-semibold text-white"><span th:text="${serie.repeticoes}">10</span><span class="ml-1 text-xs font-normal text-slate-400">reps</span></p>
+                    <p class="text-sm font-semibold text-emerald-300"><span th:text="${#numbers.formatDecimal(serie.pesoKg, 1, 1)}">40</span><span class="ml-1 text-xs font-normal text-slate-400">kg</span></p>
+                </div>
+            </div>
+        </article>
+        <p th:if="${registro.exercicios == null or #lists.isEmpty(registro.exercicios)}" class="rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-slate-400">Este registro não possui séries detalhadas.</p>
+    </section>
+
+    <section th:if="${registro.observacoesDia != null and !registro.observacoesDia.isEmpty()}" class="mt-6 rounded-xl border border-white/10 bg-slate-900/70 p-4">
+        <h2 class="text-sm font-semibold text-white">Observações</h2>
+        <p class="mt-2 whitespace-pre-line break-words text-sm leading-relaxed text-slate-300" th:text="${registro.observacoesDia}">Observações da sessão</p>
+    </section>
+</main>
+</body>
+</html>

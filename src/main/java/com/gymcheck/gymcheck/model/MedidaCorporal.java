@@ -32,9 +32,7 @@ public class MedidaCorporal {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    public MedidaCorporal() {
-        this.data = LocalDate.now();
-    }
+    public MedidaCorporal() {}
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

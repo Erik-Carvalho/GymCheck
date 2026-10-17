@@ -22,7 +22,7 @@ public class Refeicao {
     @NotNull(message = "A data da refeição é obrigatória.")
     @PastOrPresent(message = "A data da refeição não pode estar no futuro.")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate data = LocalDate.now();
+    private LocalDate data;
 
     private LocalTime horario;
 

@@ -2,6 +2,7 @@ package com.gymcheck.gymcheck.controller;
 
 import jakarta.validation.Valid;
 import com.gymcheck.gymcheck.dto.ObservacaoTreinoDTO;
+import com.gymcheck.gymcheck.dto.RegistroTreinoDetalheDTO;
 import com.gymcheck.gymcheck.dto.ReordenacaoDTO;
 import com.gymcheck.gymcheck.dto.SessaoTreinoForm;
 import com.gymcheck.gymcheck.model.DiaSemana;
@@ -101,6 +102,13 @@ public class TreinoController {
         } catch (RuntimeException e) {
             return "redirect:/treinos";
         }
+    }
+
+    @GetMapping("/registros/{registroId}")
+    public String detalhesRegistro(@PathVariable Long registroId, Model model) {
+        RegistroTreinoDetalheDTO registro = treinoService.buscarRegistroTreino(registroId);
+        model.addAttribute("registro", registro);
+        return "treinos/registro";
     }
 
     @PatchMapping("/{id}/observacao")

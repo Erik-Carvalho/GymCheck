@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,15 +21,18 @@ public class DashboardController {
     private final RefeicaoService refeicaoService;
     private final MedidaCorporalService medidaCorporalService;
     private final UsuarioService usuarioService;
+    private final Clock clock;
 
     public DashboardController(TreinoService treinoService,
                                RefeicaoService refeicaoService,
                                MedidaCorporalService medidaCorporalService,
-                               UsuarioService usuarioService) {
+                               UsuarioService usuarioService,
+                               Clock clock) {
         this.treinoService = treinoService;
         this.refeicaoService = refeicaoService;
         this.medidaCorporalService = medidaCorporalService;
         this.usuarioService = usuarioService;
+        this.clock = clock;
     }
 
     @GetMapping("/")
@@ -38,11 +42,12 @@ public class DashboardController {
             model.addAttribute("usuarioLogado", usuario);
         } catch (Exception ignored) {}
 
-        DiaSemana diaAtual = DiaSemana.fromDayOfWeek(LocalDate.now().getDayOfWeek());
+        DiaSemana diaAtual = DiaSemana.fromDayOfWeek(LocalDate.now(clock).getDayOfWeek());
         List<RotinaTreino> treinosHoje = treinoService.buscarTreinosDeHoje();
 
         model.addAttribute("diaSemanaAtual", diaAtual != null ? diaAtual.getDescricao() : "");
         model.addAttribute("treinosHoje", treinosHoje);
+        model.addAttribute("registrosHojePorRotina", treinoService.buscarRegistrosHojePorRotina());
         model.addAttribute("ultimosTreinos", treinoService.listarHistoricoTreinos());
         model.addAttribute("rotinas", treinoService.listarTodasRotinas());
         var refeicoesHoje = refeicaoService.buscarRefeicoesDeHoje();
