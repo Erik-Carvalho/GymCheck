@@ -31,6 +31,7 @@ Pensado para **uso próprio e para um grupo limitado de usuários**, todo o ecos
 | **Banco de Dados (Dev)** | H2 Database | Banco em memória para desenvolvimento local e testes ágeis | 
 | **Banco de Dados (Prod)** | PostgreSQL | Banco de dados relacional hospedado na nuvem (Neon.tech Serverless) | 
 | **Template Engine** | Thymeleaf | Renderização dinâmica de HTML5 no lado do servidor | 
+| **E-mail Transacional** | Brevo SMTP | Envio de e-mails de recuperação de senha |
 | **Protótipo Design do App** | Vercel | Protótipo estático/UI das telas do app para validação visual |
 | **Estilização / UI** | Tailwind CSS | Framework utilitário para layout responsivo e mobile-first | 
 | **PWA & Client-Side** | Service Workers & Web App Manifest | Suporte a instalação no sistema operacional e navegação offline basica | 
