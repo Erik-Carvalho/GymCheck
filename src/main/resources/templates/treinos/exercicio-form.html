@@ -1,43 +1,84 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#020617">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/svg+xml" href="/icon.svg">
-    <title>Novo Exercício - GymCheck</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Novo Exercício — GymCheck</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#0f172a',
+                            950: '#020617'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-light" style="overflow-wrap: break-word; white-space: normal;">
-<div class="container my-5" style="max-width: 600px;">
-    <div class="card border-0 shadow-sm p-4">
-        <h3 class="mb-4">Cadastrar Exercício</h3>
-        <form th:action="@{/treinos/exercicios/salvar}" th:object="${exercicio}" method="post" data-loading-form>
-            <div class="mb-3">
-                <label class="form-label">Nome do Exercício</label>
-                <input type="text" class="form-control" th:field="*{nome}" required placeholder="Ex: Agachamento Livre">
+<body class="min-h-screen bg-slate-950 text-white antialiased">
+<main class="mx-auto min-h-screen max-w-3xl px-4 pb-10 pt-5 sm:px-6 lg:px-8">
+    <header class="flex items-center justify-between border-b border-white/5 pb-4">
+        <a th:href="@{/treinos}" class="inline-flex items-center gap-2 text-sm font-medium text-slate-300 transition-colors hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Voltar aos treinos
+        </a>
+        <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">GymCheck</span>
+    </header>
+
+    <section class="mx-auto max-w-xl py-8 sm:py-10">
+        <p class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Biblioteca pessoal</p>
+        <h1 class="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">Cadastrar exercício</h1>
+        <p class="mt-1 text-sm text-slate-400">Adicione um movimento e suas referências de carga.</p>
+
+        <form th:action="@{/treinos/exercicios/salvar}" th:object="${exercicio}" method="post" class="mt-6 flex flex-col gap-4 rounded-xl border border-white/10 bg-slate-900/70 p-5 sm:p-6" data-loading-form>
+            <div class="flex flex-col gap-1.5">
+                <label for="nome" class="text-xs font-medium text-slate-300">Nome do exercício</label>
+                <input id="nome" type="text" th:field="*{nome}" required placeholder="Ex: Agachamento livre" class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Grupo Muscular</label>
-                <input type="text" class="form-control" th:field="*{grupoMuscular}" required placeholder="Ex: Peitoral, Dorsal, Quadríceps">
+            <div class="flex flex-col gap-1.5">
+                <label for="grupoMuscular" class="text-xs font-medium text-slate-300">Grupo muscular</label>
+                <input id="grupoMuscular" type="text" th:field="*{grupoMuscular}" required placeholder="Ex: Peitoral, dorsal, quadríceps" class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Carga Inicial / PR (kg)</label>
-                <input type="number" step="0.5" class="form-control" th:field="*{maiorPesoPegoKg}" placeholder="0.0">
+            <div class="flex flex-col gap-1.5">
+                <label for="maiorPesoPegoKg" class="text-xs font-medium text-slate-300">Carga inicial / PR</label>
+                <div class="relative">
+                    <input id="maiorPesoPegoKg" type="number" step="0.5" th:field="*{maiorPesoPegoKg}" placeholder="0" class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 pr-10 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-slate-500">kg</span>
+                </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Observações</label>
-                <textarea class="form-control" th:field="*{observacoes}" rows="2" placeholder="Dicas de execução..."></textarea>
+            <div class="flex flex-col gap-1.5">
+                <label for="observacoes" class="text-xs font-medium text-slate-300">Observações</label>
+                <textarea id="observacoes" th:field="*{observacoes}" rows="3" placeholder="Dicas de execução..." class="w-full resize-y rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
             </div>
-            <div class="d-flex justify-content-between">
-                <a href="/treinos" class="btn btn-outline-secondary">Cancelar</a>
-                <button type="submit" data-loading-submit data-loading-text="Salvando exercício..." class="btn btn-primary">Salvar Exercício</button>
+            <div class="mt-2 flex flex-col-reverse gap-2 border-t border-white/5 pt-4 sm:flex-row sm:justify-end">
+                <a th:href="@{/treinos}" class="inline-flex items-center justify-center rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white">Cancelar</a>
+                <button type="submit" data-loading-submit data-loading-text="Salvando exercício..." class="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-emerald-400">
+                    Salvar exercício
+                </button>
             </div>
         </form>
-    </div>
-</div>
+    </section>
+</main>
 <div th:replace="~{fragments/footer :: appFooter}"></div>
-    <script th:src="@{/js/gymcheck.js}" defer></script>
+<script th:src="@{/js/gymcheck.js}" defer></script>
 </body>
 </html>

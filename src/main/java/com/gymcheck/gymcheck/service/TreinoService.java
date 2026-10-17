@@ -3,17 +3,23 @@ package com.gymcheck.gymcheck.service;
 import com.gymcheck.gymcheck.model.*;
 import com.gymcheck.gymcheck.repository.*;
 import com.gymcheck.gymcheck.dto.ItemTreinoDTO;
+import com.gymcheck.gymcheck.dto.ProgressaoTreinoDTO;
 import com.gymcheck.gymcheck.dto.ReordenacaoDTO;
+import com.gymcheck.gymcheck.dto.SessaoTreinoForm;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,6 +51,20 @@ public class TreinoService {
     public List<RotinaTreino> listarTodasRotinas() {
         Usuario usuario = usuarioService.getUsuarioAutenticado();
         return rotinaRepository.findByUsuarioIdOrderByOrdemAscIdAsc(usuario.getId());
+    }
+
+    public List<Exercicio> listarExercicios() {
+        Usuario usuario = usuarioService.getUsuarioAutenticado();
+        return exercicioRepository.findByUsuarioIdOrderByNomeAsc(usuario.getId());
+    }
+
+    public Exercicio salvarExercicio(Exercicio exercicio) {
+        Usuario usuario = usuarioService.getUsuarioAutenticado();
+        exercicio.setId(null);
+        exercicio.setNome(exercicio.getNome().trim());
+        exercicio.setGrupoMuscular(exercicio.getGrupoMuscular().trim());
+        exercicio.setUsuario(usuario);
+        return exercicioRepository.save(exercicio);
     }
 
     public List<RotinaTreino> buscarTreinosDeHoje() {
@@ -162,19 +182,92 @@ public class TreinoService {
         return registroTreinoRepository.findByUsuarioIdOrderByDataDesc(usuario.getId());
     }
 
+    public ProgressaoTreinoDTO buscarProgressaoCarga(Long rotinaId) {
+        Usuario usuario = usuarioService.getUsuarioAutenticado();
+        buscarRotinaPorId(rotinaId);
+        List<RegistroTreino> registros = registroTreinoRepository
+                .findByUsuarioIdAndRotina_IdOrderByDataAsc(usuario.getId(), rotinaId);
+        DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM");
+        List<String> datas = registros.stream().map(registro -> registro.getData().format(formatoData)).toList();
+        List<String> nomesExercicios = registros.stream()
+                .flatMap(registro -> registro.getSeries().stream())
+                .map(serie -> serie.getExercicio().getNome())
+                .filter(Objects::nonNull)
+                .distinct()
+                .sorted()
+                .toList();
+
+        Map<String, List<Double>> cargasPorExercicio = new LinkedHashMap<>();
+        for (String nomeExercicio : nomesExercicios) {
+            List<Double> cargas = registros.stream().map(registro -> registro.getSeries().stream()
+                    .filter(serie -> nomeExercicio.equals(serie.getExercicio().getNome()))
+                    .map(Serie::getPesoKg)
+                    .filter(Objects::nonNull)
+                    .max(Double::compareTo)
+                    .orElse(null)).toList();
+            cargasPorExercicio.put(nomeExercicio, cargas);
+        }
+        return new ProgressaoTreinoDTO(datas, cargasPorExercicio);
+    }
+
     @Transactional
-    public RegistroTreino concluirTreino(Long rotinaId, String observacoesDia) {
+    public RegistroTreino concluirTreino(Long rotinaId, SessaoTreinoForm sessaoForm) {
         Usuario usuario = usuarioService.getUsuarioAutenticado();
         RotinaTreino rotina = buscarRotinaPorId(rotinaId);
+        List<ItemTreino> itensRotina = rotina.getItens();
+
+        if (sessaoForm == null || sessaoForm.getExercicios() == null
+                || sessaoForm.getExercicios().size() != itensRotina.size()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A sessão enviada não corresponde à ficha.");
+        }
+
+        Map<Long, ItemTreino> itensPorId = new HashMap<>();
+        itensRotina.forEach(item -> itensPorId.put(item.getId(), item));
+        Set<Long> itensEnviados = new HashSet<>();
+        int seriesRealizadas = 0;
+
+        for (SessaoTreinoForm.ExercicioSessaoForm exercicioForm : sessaoForm.getExercicios()) {
+            if (exercicioForm == null || exercicioForm.getItemTreinoId() == null
+                    || !itensEnviados.add(exercicioForm.getItemTreinoId())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Há exercícios inválidos ou repetidos na sessão.");
+            }
+
+            ItemTreino item = itensPorId.get(exercicioForm.getItemTreinoId());
+            if (item == null || exercicioForm.getSeries() == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A sessão contém um exercício que não pertence à ficha.");
+            }
+
+            for (SessaoTreinoForm.SerieSessaoForm serieForm : exercicioForm.getSeries()) {
+                if (serieForm == null) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Há séries inválidas na sessão.");
+                }
+                if (!Boolean.TRUE.equals(serieForm.getRealizada())) continue;
+                if (serieForm.getPesoKg() == null || serieForm.getPesoKg() < 0
+                        || serieForm.getRepeticoes() == null || serieForm.getRepeticoes() <= 0) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Informe carga e repetições válidas nas séries realizadas.");
+                }
+                seriesRealizadas++;
+            }
+        }
+
+        if (!itensEnviados.equals(itensPorId.keySet()) || seriesRealizadas == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Marque pelo menos uma série realizada.");
+        }
 
         RegistroTreino registro = new RegistroTreino();
         registro.setData(LocalDate.now());
         registro.setRotina(rotina);
         registro.setUsuario(usuario);
-        registro.setObservacoesDia(observacoesDia);
+        registro.setObservacoesDia(sessaoForm.getObservacoesDia());
         RegistroTreino salvo = registroTreinoRepository.save(registro);
 
-        for (ItemTreino item : rotina.getItens()) {
+        for (SessaoTreinoForm.ExercicioSessaoForm exercicioForm : sessaoForm.getExercicios()) {
+            ItemTreino item = itensPorId.get(exercicioForm.getItemTreinoId());
+            List<SessaoTreinoForm.SerieSessaoForm> seriesFeitas = exercicioForm.getSeries().stream()
+                    .filter(serie -> Boolean.TRUE.equals(serie.getRealizada()))
+                    .toList();
+            if (seriesFeitas.isEmpty()) continue;
+
             Exercicio exercicio = exercicioRepository
                     .findFirstByUsuarioIdAndNomeIgnoreCase(usuario.getId(), item.getNomeExercicio())
                     .orElseGet(() -> {
@@ -182,31 +275,37 @@ public class TreinoService {
                         novoExercicio.setNome(item.getNomeExercicio());
                         novoExercicio.setGrupoMuscular("Geral");
                         novoExercicio.setUsuario(usuario);
-                        novoExercicio.setPesoInicialKg(item.getPeso() != null ? item.getPeso() : 0.0);
-                        novoExercicio.setPesoAtualKg(item.getPeso() != null ? item.getPeso() : 0.0);
-                        novoExercicio.setRecordePessoalKg(item.getPeso() != null ? item.getPeso() : 0.0);
+                        double primeiraCarga = seriesFeitas.get(0).getPesoKg();
+                        novoExercicio.setPesoInicialKg(primeiraCarga);
+                        novoExercicio.setPesoAtualKg(primeiraCarga);
+                        novoExercicio.setRecordePessoalKg(0.0);
                         return exercicioRepository.save(novoExercicio);
                     });
 
-            double peso = item.getPeso() != null ? item.getPeso() : 0.0;
-            if (peso > exercicio.getRecordePessoalKg()) {
-                exercicio.setRecordePessoalKg(peso);
-            }
-            exercicio.setPesoAtualKg(peso);
-            exercicioRepository.save(exercicio);
+            Double ultimaCargaRealizada = null;
+            for (int indiceSerie = 0; indiceSerie < exercicioForm.getSeries().size(); indiceSerie++) {
+                SessaoTreinoForm.SerieSessaoForm serieForm = exercicioForm.getSeries().get(indiceSerie);
+                if (!Boolean.TRUE.equals(serieForm.getRealizada())) continue;
 
-            int numSeries = (item.getSeries() != null && item.getSeries() > 0) ? item.getSeries() : 1;
-            int numReps = item.getRepeticoes() != null ? item.getRepeticoes() : 10;
-
-            for (int s = 1; s <= numSeries; s++) {
                 Serie serie = new Serie();
                 serie.setRegistroTreino(salvo);
                 serie.setExercicio(exercicio);
-                serie.setNumeroSerie(s);
-                serie.setPesoKg(peso);
-                serie.setRepeticoes(numReps);
+                serie.setNumeroSerie(indiceSerie + 1);
+                serie.setPesoKg(serieForm.getPesoKg());
+                serie.setRepeticoes(serieForm.getRepeticoes());
                 serieRepository.save(serie);
                 salvo.getSeries().add(serie);
+
+                ultimaCargaRealizada = serieForm.getPesoKg();
+                double recordeAtual = exercicio.getRecordePessoalKg() != null ? exercicio.getRecordePessoalKg() : 0.0;
+                if (serieForm.getPesoKg() > recordeAtual) {
+                    exercicio.setRecordePessoalKg(serieForm.getPesoKg());
+                }
+            }
+
+            if (ultimaCargaRealizada != null) {
+                exercicio.setPesoAtualKg(ultimaCargaRealizada);
+                exercicioRepository.save(exercicio);
             }
         }
 

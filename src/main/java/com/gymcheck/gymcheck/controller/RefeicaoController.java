@@ -2,8 +2,10 @@ package com.gymcheck.gymcheck.controller;
 
 import com.gymcheck.gymcheck.model.Refeicao;
 import com.gymcheck.gymcheck.service.RefeicaoService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,13 +21,23 @@ public class RefeicaoController {
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("refeicoes", refeicaoService.listarTodas());
+        var refeicoes = refeicaoService.listarTodas();
+        var refeicoesHoje = refeicaoService.buscarRefeicoesDeHoje();
+        model.addAttribute("refeicoes", refeicoes);
+        model.addAttribute("refeicoesHoje", refeicoesHoje);
+        model.addAttribute("nutricaoHoje", refeicaoService.resumir(refeicoesHoje));
         model.addAttribute("refeicao", new Refeicao());
         return "dieta/index";
     }
 
     @PostMapping
-    public String salvar(@ModelAttribute("refeicao") Refeicao refeicao, RedirectAttributes redirectAttributes) {
+    public String salvar(@Valid @ModelAttribute("refeicao") Refeicao refeicao,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("mensagemErro", "Confira os dados nutricionais informados.");
+            return "redirect:/dieta";
+        }
         if (refeicao.getNomeRefeicao() == null || refeicao.getNomeRefeicao().trim().isEmpty()) {
             redirectAttributes.addFlashAttribute("mensagemErro", "O nome da refeição é obrigatório (ex: Café da Manhã, Almoço)!");
             return "redirect:/dieta";

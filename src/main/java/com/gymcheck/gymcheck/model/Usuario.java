@@ -32,6 +32,22 @@ public class Usuario {
     @Positive(message = "A altura deve ser um valor positivo.")
     private Double altura; // Altura em cm (compatível também com alturaCm)
 
+    @Positive(message = "A meta de calorias deve ser maior que zero.")
+    @Max(value = 15000, message = "A meta de calorias deve ser menor ou igual a 15000.")
+    private Integer metaCaloriasDia;
+
+    @Positive(message = "A meta de proteína deve ser maior que zero.")
+    @Max(value = 1000, message = "A meta de proteína deve ser menor ou igual a 1000 g.")
+    private Integer metaProteinasDia;
+
+    @Positive(message = "A meta de carboidratos deve ser maior que zero.")
+    @Max(value = 2000, message = "A meta de carboidratos deve ser menor ou igual a 2000 g.")
+    private Integer metaCarboidratosDia;
+
+    @Positive(message = "A meta de gorduras deve ser maior que zero.")
+    @Max(value = 1000, message = "A meta de gorduras deve ser menor ou igual a 1000 g.")
+    private Integer metaGordurasDia;
+
     // Construtores
     public Usuario() {}
 
@@ -85,6 +101,18 @@ public class Usuario {
 
     public Double getAltura() { return altura; }
     public void setAltura(Double altura) { this.altura = altura; }
+
+    public Integer getMetaCaloriasDia() { return metaCaloriasDia; }
+    public void setMetaCaloriasDia(Integer metaCaloriasDia) { this.metaCaloriasDia = metaCaloriasDia; }
+
+    public Integer getMetaProteinasDia() { return metaProteinasDia; }
+    public void setMetaProteinasDia(Integer metaProteinasDia) { this.metaProteinasDia = metaProteinasDia; }
+
+    public Integer getMetaCarboidratosDia() { return metaCarboidratosDia; }
+    public void setMetaCarboidratosDia(Integer metaCarboidratosDia) { this.metaCarboidratosDia = metaCarboidratosDia; }
+
+    public Integer getMetaGordurasDia() { return metaGordurasDia; }
+    public void setMetaGordurasDia(Integer metaGordurasDia) { this.metaGordurasDia = metaGordurasDia; }
 
     // Métodos utilitários de compatibilidade para alturaCm
     public Double getAlturaCm() { return altura; }

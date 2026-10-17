@@ -35,44 +35,38 @@
 </head>
 <body class="min-h-screen bg-slate-950 text-white antialiased break-words whitespace-normal">
     <div class="min-h-screen bg-slate-950 text-white">
-        <main class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-28">
-
-            <!-- Top Slogan -->
-            <div class="px-5 pt-4 text-center">
-                <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
-                    Treine. Registe. Evolua.
-                </span>
-            </div>
+        <main class="relative mx-auto flex min-h-screen max-w-5xl flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-28">
 
             <!-- Header Navigation -->
-            <header class="sticky top-0 z-10 flex items-center justify-between border-b border-white/5 bg-slate-900/80 px-5 py-4 backdrop-blur-md">
+            <header class="sticky top-0 z-10 flex items-center justify-between border-b border-white/5 bg-slate-900/80 px-5 py-4 backdrop-blur-md lg:px-8">
                 <a th:href="@{/}" class="flex items-center gap-2 rounded-xl bg-slate-800/60 px-3 py-2 text-sm font-medium text-slate-200 ring-1 ring-white/5 transition-colors hover:bg-slate-800 active:bg-slate-800">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
                     </svg>
                     Voltar ao Início
                 </a>
+                <a th:href="@{/treinos/exercicios}" class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white">
+                    Exercícios
+                </a>
             </header>
 
             <!-- Page Title -->
-            <section class="px-5 pt-6">
+            <section class="px-5 pt-7 lg:px-8 lg:pt-9">
                 <div class="flex items-start gap-3">
-                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-lg shadow-indigo-500/20">
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-400/20">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
                         </svg>
                     </div>
                     <div class="min-w-0">
-                        <h1 class="text-xl font-bold leading-tight text-white">Rotinas de Treino</h1>
-                        <span class="mt-1.5 inline-flex items-center rounded-full bg-indigo-500/15 px-2.5 py-0.5 text-xs font-medium text-indigo-300 ring-1 ring-inset ring-indigo-500/20">
-                            Monte suas fichas e execute
-                        </span>
+                        <h1 class="text-2xl font-bold leading-tight text-white sm:text-3xl">Seus treinos</h1>
+                        <p class="mt-1 text-sm text-slate-400">Monte suas fichas e acompanhe sua evolução.</p>
                     </div>
                 </div>
             </section>
 
             <!-- Alertas Flash -->
-            <div class="px-5 pt-4">
+            <div class="px-5 pt-4 lg:px-8">
                 <div th:if="${mensagemSucesso}" role="status" data-toast="success" class="flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
@@ -87,10 +81,11 @@
                 </div>
             </div>
 
+            <div class="grid gap-6 px-5 pt-6 lg:grid-cols-[minmax(270px,0.85fr)_minmax(0,1.4fr)] lg:items-start lg:px-8">
             <!-- Formulário: Criar Nova Rotina -->
-            <section class="px-5 pt-5">
-                <div class="rounded-2xl bg-slate-800/50 p-4 ring-1 ring-white/5">
-                    <h2 class="mb-4 text-sm font-semibold text-slate-300">Nova Rotina de Treino</h2>
+            <section class="lg:sticky lg:top-24">
+                <div class="rounded-xl border border-white/10 bg-slate-800/50 p-4">
+                    <h2 class="mb-4 text-sm font-semibold text-white">Nova ficha</h2>
                     <form th:action="@{/treinos/nova}" th:object="${novaRotina}" method="post" class="flex flex-col gap-3" data-loading-form>
                         <div class="flex flex-col gap-1.5">
                             <label for="nome" class="text-xs font-medium text-slate-400">Nome da Rotina</label>
@@ -100,7 +95,7 @@
                                 th:field="*{nome}"
                                 required
                                 placeholder="Ex: Treino A - Peito e Tríceps"
-                                class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             />
                         </div>
 
@@ -111,7 +106,7 @@
                                 type="text"
                                 th:field="*{descricao}"
                                 placeholder="Ex: Foco em hipertrofia e progressão de carga"
-                                class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             />
                         </div>
 
@@ -119,7 +114,7 @@
                             type="submit"
                             data-loading-submit
                             data-loading-text="Criando rotina..."
-                            class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-opacity hover:opacity-95 active:opacity-90"
+                            class="mt-2 flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-emerald-400"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
@@ -131,7 +126,7 @@
             </section>
 
             <!-- Lista de Rotinas Existentes -->
-            <section class="px-5 pt-6" aria-labelledby="minhas-rotinas">
+            <section aria-labelledby="minhas-rotinas">
                 <div class="mb-3 flex items-center justify-between">
                     <h2 id="minhas-rotinas" class="text-sm font-semibold text-slate-300">Minhas Fichas</h2>
                     <span class="text-xs text-slate-500" th:text="${#lists.size(rotinas)} + ' cadastradas'">0 cadastradas</span>
@@ -143,7 +138,7 @@
                 </div>
 
                 <div class="sortable-list flex flex-col gap-3" th:attr="data-reorder-url=@{/treinos/reordenar}">
-                    <div th:each="rotina : ${rotinas}" class="sortable-item group relative rounded-2xl bg-slate-800/50 p-4 ring-1 ring-white/5 transition-colors hover:bg-slate-800" th:attr="data-id=${rotina.id}">
+                    <div th:each="rotina : ${rotinas}" class="sortable-item group relative rounded-xl border border-white/10 bg-slate-800/50 p-4 transition-colors hover:border-white/15 hover:bg-slate-800" th:attr="data-id=${rotina.id}">
                         <div class="flex items-start justify-between">
                             <div class="min-w-0 flex-1 break-words whitespace-normal pr-3">
                                 <h3 class="break-words whitespace-normal text-base font-bold text-white" th:text="${rotina.nome}">Treino A</h3>
@@ -152,7 +147,7 @@
                                 <!-- Badges de Dias da Semana -->
                                 <div class="mt-2.5 flex flex-wrap gap-1" th:if="${rotina.diasSemana != null and !rotina.diasSemana.isEmpty()}">
                                     <span th:each="d : ${rotina.diasSemana}"
-                                          class="inline-flex items-center rounded-md bg-indigo-500/15 px-2 py-0.5 text-[10px] font-medium text-indigo-300 ring-1 ring-inset ring-indigo-500/20"
+                                          class="inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20"
                                           th:text="${d.descricao}">
                                         Segunda-feira
                                     </span>
@@ -170,8 +165,8 @@
                                     </svg>
                                 </button>
                                 <a th:href="@{/treinos/rotinas/{id}(id=${rotina.id})}"
-                                   class="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-transform hover:scale-105 active:scale-95">
-                                    Abrir / Treinar
+                                   class="inline-flex items-center justify-center rounded-lg bg-emerald-500 px-3.5 py-2 text-xs font-semibold text-slate-950 transition-colors hover:bg-emerald-400">
+                                    Abrir treino
                                 </a>
                                 <form th:action="@{/treinos/rotinas/{id}/deletar(id=${rotina.id})}" method="post" onsubmit="return confirm('Deseja realmente excluir esta rotina?');">
                                     <button
@@ -188,11 +183,12 @@
                     <p data-sortable-status role="status" aria-live="polite" class="text-xs text-red-300"></p>
                 </div>
             </section>
+            </div>
             <div th:replace="~{fragments/footer :: appFooter}"></div>
         </main>
 
         <!-- Bottom Navigation -->
-        <nav aria-label="Navegação Inferior" class="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md border-t border-white/5 bg-slate-900/80 px-2 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
+        <nav aria-label="Navegação Inferior" class="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-5xl border-t border-white/5 bg-slate-900/80 px-2 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
             <ul class="flex items-center justify-around">
                 <li class="flex-1">
                     <a th:href="@{/}" class="flex w-full flex-col items-center gap-1 py-2.5">
@@ -206,12 +202,12 @@
                 </li>
                 <li class="flex-1">
                     <a th:href="@{/treinos}" aria-current="page" class="flex w-full flex-col items-center gap-1 py-2.5">
-                        <span class="flex h-9 w-14 items-center justify-center rounded-full bg-indigo-500/15 text-indigo-400 transition-colors">
+                        <span class="flex h-9 w-14 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-400 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
                             </svg>
                         </span>
-                        <span class="text-[11px] font-medium text-indigo-400 transition-colors">Treinos</span>
+                        <span class="text-[11px] font-medium text-emerald-400 transition-colors">Treinos</span>
                     </a>
                 </li>
                 <li class="flex-1">

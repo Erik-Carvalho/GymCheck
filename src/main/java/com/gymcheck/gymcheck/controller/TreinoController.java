@@ -3,7 +3,9 @@ package com.gymcheck.gymcheck.controller;
 import jakarta.validation.Valid;
 import com.gymcheck.gymcheck.dto.ObservacaoTreinoDTO;
 import com.gymcheck.gymcheck.dto.ReordenacaoDTO;
+import com.gymcheck.gymcheck.dto.SessaoTreinoForm;
 import com.gymcheck.gymcheck.model.DiaSemana;
+import com.gymcheck.gymcheck.model.Exercicio;
 import com.gymcheck.gymcheck.model.ItemTreino;
 import com.gymcheck.gymcheck.model.RotinaTreino;
 import com.gymcheck.gymcheck.service.TreinoService;
@@ -34,6 +36,27 @@ public class TreinoController {
         model.addAttribute("novaRotina", new RotinaTreino());
         model.addAttribute("todosDiasSemana", DiaSemana.values());
         return "treinos/index";
+    }
+
+    @GetMapping("/exercicios")
+    public String listarExercicios(Model model) {
+        model.addAttribute("exercicios", treinoService.listarExercicios());
+        model.addAttribute("novoExercicio", new Exercicio());
+        return "treinos/exercicios";
+    }
+
+    @PostMapping("/exercicios/salvar")
+    public String salvarExercicio(@Valid @ModelAttribute("novoExercicio") Exercicio exercicio,
+                                  BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("mensagemErro", "Confira o nome, grupo muscular e cargas informados.");
+            return "redirect:/treinos/exercicios";
+        }
+
+        treinoService.salvarExercicio(exercicio);
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Exercício cadastrado com sucesso!");
+        return "redirect:/treinos/exercicios";
     }
 
     @PostMapping("/reordenar")
@@ -72,6 +95,8 @@ public class TreinoController {
             model.addAttribute("rotina", rotina);
             model.addAttribute("novoItem", new ItemTreino());
             model.addAttribute("todosDiasSemana", DiaSemana.values());
+            model.addAttribute("sessaoForm", criarSessaoForm(rotina));
+            model.addAttribute("progressaoCargas", treinoService.buscarProgressaoCarga(rotina.getId()));
             return "treinos/detalhes";
         } catch (RuntimeException e) {
             return "redirect:/treinos";
@@ -170,14 +195,32 @@ public class TreinoController {
 
     @PostMapping("/rotinas/{id}/concluir")
     public String concluirTreino(@PathVariable Long id,
-                                 @RequestParam(value = "observacoesDia", required = false) String observacoesDia,
+                                 @ModelAttribute("sessaoForm") SessaoTreinoForm sessaoForm,
                                  RedirectAttributes redirectAttributes) {
         try {
-            treinoService.concluirTreino(id, observacoesDia);
+            treinoService.concluirTreino(id, sessaoForm);
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Parabéns! Treino concluído com sucesso e registrado no seu histórico!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensagemErro", "Não foi possível concluir o treino: " + e.getMessage());
         }
         return "redirect:/";
+    }
+
+    private SessaoTreinoForm criarSessaoForm(RotinaTreino rotina) {
+        SessaoTreinoForm sessaoForm = new SessaoTreinoForm();
+        for (ItemTreino item : rotina.getItens()) {
+            SessaoTreinoForm.ExercicioSessaoForm exercicioForm = new SessaoTreinoForm.ExercicioSessaoForm();
+            exercicioForm.setItemTreinoId(item.getId());
+
+            int quantidadeSeries = item.getSeries() != null && item.getSeries() > 0 ? item.getSeries() : 3;
+            for (int numeroSerie = 1; numeroSerie <= quantidadeSeries; numeroSerie++) {
+                SessaoTreinoForm.SerieSessaoForm serieForm = new SessaoTreinoForm.SerieSessaoForm();
+                serieForm.setPesoKg(item.getPeso() != null ? item.getPeso() : 0.0);
+                serieForm.setRepeticoes(item.getRepeticoes() != null ? item.getRepeticoes() : 10);
+                exercicioForm.getSeries().add(serieForm);
+            }
+            sessaoForm.getExercicios().add(exercicioForm);
+        }
+        return sessaoForm;
     }
 }

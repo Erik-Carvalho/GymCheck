@@ -7,6 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.List;
+
 @Controller
 @RequestMapping("/medidas")
 public class MedidaCorporalController {
@@ -19,7 +23,19 @@ public class MedidaCorporalController {
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("medidas", medidaCorporalService.listarTodas());
+        List<MedidaCorporal> medidas = medidaCorporalService.listarTodas();
+        List<MedidaCorporal> cronologicas = medidas.stream()
+            .filter(medida -> medida.getData() != null)
+            .sorted(Comparator.comparing(MedidaCorporal::getData))
+            .toList();
+        DateTimeFormatter formatoGrafico = DateTimeFormatter.ofPattern("dd/MM");
+
+        model.addAttribute("medidas", medidas);
+        model.addAttribute("graficoDatas", cronologicas.stream()
+            .map(medida -> medida.getData().format(formatoGrafico)).toList());
+        model.addAttribute("graficoPeso", cronologicas.stream().map(MedidaCorporal::getPesoKg).toList());
+        model.addAttribute("graficoCintura", cronologicas.stream().map(MedidaCorporal::getCinturaCm).toList());
+        model.addAttribute("graficoBraco", cronologicas.stream().map(MedidaCorporal::getBracoCm).toList());
         model.addAttribute("medida", new MedidaCorporal());
         return "medidas/index";
     }

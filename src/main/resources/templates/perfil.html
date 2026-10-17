@@ -32,17 +32,10 @@
 </head>
 <body class="min-h-screen bg-slate-950 text-white antialiased break-words whitespace-normal">
     <div class="min-h-screen bg-slate-950 text-white">
-        <main class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-28">
-
-            <!-- Top Slogan -->
-            <div class="px-5 pt-4 text-center">
-                <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
-                    Treine. Registe. Evolua.
-                </span>
-            </div>
+        <main class="relative mx-auto flex min-h-screen max-w-3xl flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-28">
 
             <!-- Header Navigation -->
-            <header class="sticky top-0 z-10 flex items-center justify-between border-b border-white/5 bg-slate-900/80 px-5 py-4 backdrop-blur-md">
+            <header class="sticky top-0 z-10 flex items-center justify-between border-b border-white/5 bg-slate-900/80 px-5 py-4 backdrop-blur-md lg:px-8">
                 <a th:href="@{/}" class="flex items-center gap-2 rounded-xl bg-slate-800/60 px-3 py-2 text-sm font-medium text-slate-200 ring-1 ring-white/5 transition-colors hover:bg-slate-800 active:bg-slate-800">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
@@ -66,19 +59,20 @@
                         </button>
                     </div>
                 </details>
+                <span class="hidden text-xs font-semibold uppercase tracking-wider text-emerald-400 sm:inline">Perfil</span>
             </header>
 
             <!-- Page Title & Avatar -->
-            <section class="px-5 pt-6 text-center">
-                <a th:href="@{/perfil}" aria-label="Configurações do Perfil" class="relative mx-auto mb-3 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 text-2xl font-bold text-white shadow-xl shadow-indigo-500/30 ring-4 ring-indigo-500/20 focus:outline-none focus:ring-indigo-400">
+            <section class="px-5 pt-7 text-center lg:pt-9">
+                <a th:href="@{/perfil}" aria-label="Configurações do Perfil" class="relative mx-auto mb-3 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-emerald-500/10 text-2xl font-bold text-emerald-300 ring-1 ring-inset ring-emerald-500/30 focus:outline-none focus:ring-2 focus:ring-emerald-400">
                     <span th:text="${usuario.iniciais}">GC</span>
                 </a>
-                <h1 class="break-words whitespace-normal text-xl font-bold text-white" th:text="${usuario.nomeExibicao}">Meu Perfil</h1>
+                <h1 class="break-words whitespace-normal text-2xl font-bold text-white" th:text="${usuario.nomeExibicao}">Meu Perfil</h1>
                 <p class="break-words whitespace-normal text-xs text-slate-400" th:text="${usuario.email}">email@dominio.com</p>
             </section>
 
             <!-- Alertas Flash -->
-            <div class="px-5 pt-4">
+            <div class="px-5 pt-4 lg:px-8">
                 <div th:if="${mensagemSucesso}" role="status" data-toast="success" class="flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
@@ -94,9 +88,9 @@
             </div>
 
             <!-- Formulário: Editar Perfil -->
-            <section class="px-5 pt-5">
-                <div class="rounded-2xl bg-slate-800/50 p-5 ring-1 ring-white/5">
-                    <h2 class="mb-4 text-sm font-semibold text-slate-300">Configurações do Perfil</h2>
+            <section class="px-5 pt-5 lg:px-8">
+                <div class="mx-auto max-w-xl rounded-xl border border-white/10 bg-slate-800/50 p-5">
+                    <h2 class="mb-4 text-sm font-semibold text-white">Configurações do perfil</h2>
 
                     <form th:action="@{/perfil}" th:object="${perfilForm}" method="post" class="flex flex-col gap-4">
                         <!-- Nome Completo -->
@@ -107,7 +101,7 @@
                                 type="text"
                                 th:field="*{nome}"
                                 placeholder="Seu nome completo"
-                                class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             />
                         </div>
 
@@ -118,7 +112,7 @@
                                 id="dataNascimento"
                                 type="date"
                                 th:field="*{dataNascimento}"
-                                class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 [color-scheme:dark] focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 [color-scheme:dark] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             />
                         </div>
 
@@ -128,7 +122,7 @@
                             <select
                                 id="sexo"
                                 th:field="*{sexo}"
-                                class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             >
                                 <option value="">Selecione...</option>
                                 <option value="Masculino">Masculino</option>
@@ -148,9 +142,32 @@
                                 max="300"
                                 th:field="*{altura}"
                                 placeholder="Ex: 175"
-                                class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             />
                             <span class="text-[11px] text-slate-500">Ex: 175 cm (equivale a 1,75m)</span>
+                        </div>
+
+                        <div class="border-t border-white/5 pt-4">
+                            <h3 class="text-sm font-semibold text-white">Metas nutricionais</h3>
+                            <p class="mt-1 text-xs text-slate-500">Opcionais; defina apenas metas que você já acompanha.</p>
+                            <div class="mt-3 grid grid-cols-2 gap-3">
+                                <div class="flex flex-col gap-1.5">
+                                    <label for="metaCaloriasDia" class="text-xs font-medium text-slate-400">Calorias / dia</label>
+                                    <input id="metaCaloriasDia" type="number" min="1" max="15000" th:field="*{metaCaloriasDia}" placeholder="kcal" class="w-full rounded-lg border-0 bg-slate-950 px-3 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label for="metaProteinasDia" class="text-xs font-medium text-slate-400">Proteína (g)</label>
+                                    <input id="metaProteinasDia" type="number" min="1" max="1000" th:field="*{metaProteinasDia}" placeholder="g" class="w-full rounded-lg border-0 bg-slate-950 px-3 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label for="metaCarboidratosDia" class="text-xs font-medium text-slate-400">Carboidratos (g)</label>
+                                    <input id="metaCarboidratosDia" type="number" min="1" max="2000" th:field="*{metaCarboidratosDia}" placeholder="g" class="w-full rounded-lg border-0 bg-slate-950 px-3 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label for="metaGordurasDia" class="text-xs font-medium text-slate-400">Gorduras (g)</label>
+                                    <input id="metaGordurasDia" type="number" min="1" max="1000" th:field="*{metaGordurasDia}" placeholder="g" class="w-full rounded-lg border-0 bg-slate-950 px-3 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                </div>
+                            </div>
                         </div>
 
                         <!-- E-mail (somente leitura para identificação) -->
@@ -167,7 +184,7 @@
                         <!-- Botão Salvar -->
                         <button
                             type="submit"
-                            class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-opacity hover:opacity-95 active:opacity-90"
+                            class="mt-2 flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-emerald-400"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
@@ -181,7 +198,7 @@
         </main>
 
         <!-- Bottom Navigation -->
-        <nav aria-label="Navegação Inferior" class="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-md border-t border-white/5 bg-slate-900/80 px-2 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
+        <nav aria-label="Navegação Inferior" class="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-5xl border-t border-white/5 bg-slate-900/80 px-2 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
             <ul class="flex items-center justify-around">
                 <li class="flex-1">
                     <a th:href="@{/}" class="flex w-full flex-col items-center gap-1 py-2.5">

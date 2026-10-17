@@ -44,6 +44,10 @@ public class UsuarioService {
         usuario.setDataNascimento(dadosAtualizados.getDataNascimento());
         usuario.setSexo(dadosAtualizados.getSexo());
         usuario.setAltura(dadosAtualizados.getAltura());
+        usuario.setMetaCaloriasDia(dadosAtualizados.getMetaCaloriasDia());
+        usuario.setMetaProteinasDia(dadosAtualizados.getMetaProteinasDia());
+        usuario.setMetaCarboidratosDia(dadosAtualizados.getMetaCarboidratosDia());
+        usuario.setMetaGordurasDia(dadosAtualizados.getMetaGordurasDia());
         return usuarioRepository.save(usuario);
     }
 }

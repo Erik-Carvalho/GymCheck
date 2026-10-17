@@ -45,8 +45,11 @@ public class DashboardController {
         model.addAttribute("treinosHoje", treinosHoje);
         model.addAttribute("ultimosTreinos", treinoService.listarHistoricoTreinos());
         model.addAttribute("rotinas", treinoService.listarTodasRotinas());
-        model.addAttribute("refeicoesHoje", refeicaoService.buscarRefeicoesDeHoje());
+        var refeicoesHoje = refeicaoService.buscarRefeicoesDeHoje();
+        model.addAttribute("refeicoesHoje", refeicoesHoje);
+        model.addAttribute("nutricaoHoje", refeicaoService.resumir(refeicoesHoje));
         model.addAttribute("ultimaMedida", medidaCorporalService.buscarUltimaMedida().orElse(null));
+        model.addAttribute("variacaoPeso", medidaCorporalService.buscarVariacaoPeso().orElse(null));
         return "dashboard";
     }
 }

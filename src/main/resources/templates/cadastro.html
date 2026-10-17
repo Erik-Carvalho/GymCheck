@@ -32,9 +32,6 @@
 </head>
 <body class="min-h-screen bg-slate-950 text-white antialiased break-words whitespace-normal">
     <main class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gradient-to-b from-slate-900 to-slate-950 px-6 pb-10">
-        <!-- Ambient glow -->
-        <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-0 mx-auto h-64 w-64 rounded-full bg-indigo-600/20 blur-3xl"></div>
-
         <!-- Header Navigation -->
         <header class="relative flex items-center justify-between pt-6">
             <a th:href="@{/login}" class="flex items-center gap-1.5 text-sm font-medium text-slate-300 transition-colors hover:text-white">
@@ -43,14 +40,14 @@
                 </svg>
                 Voltar ao Login
             </a>
-            <span class="inline-flex items-center rounded-full bg-indigo-500/10 px-3 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
+            <span class="inline-flex items-center rounded-md bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
                 Treine. Registe. Evolua.
             </span>
         </header>
 
         <!-- Branding + Title -->
         <section class="relative mt-6 flex flex-col items-center text-center">
-            <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-lg shadow-indigo-500/30">
+            <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/20">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
                 </svg>
@@ -84,7 +81,7 @@
                         type="email"
                         required
                         placeholder="seu@email.com"
-                        class="w-full rounded-xl border-0 bg-slate-900/70 py-3 pl-10 pr-3.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        class="w-full rounded-lg border-0 bg-slate-950 py-3 pl-10 pr-3.5 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     />
                 </div>
             </div>
@@ -105,7 +102,7 @@
                         required
                         minlength="6"
                         placeholder="••••••••"
-                        class="w-full rounded-xl border-0 bg-slate-900/70 py-3 pl-10 pr-11 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        class="w-full rounded-lg border-0 bg-slate-950 py-3 pl-10 pr-11 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     />
                     <button
                         type="button"
@@ -122,7 +119,7 @@
 
             <button
                 type="submit"
-                class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-opacity active:opacity-90"
+                class="mt-2 flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-3.5 text-sm font-semibold text-slate-950 transition-colors hover:bg-emerald-400 active:bg-emerald-300"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/>
@@ -133,7 +130,7 @@
 
         <div class="mt-8 text-center text-sm text-slate-400">
             Já possui cadastro?
-            <a th:href="@{/login}" class="font-semibold text-indigo-400 transition-colors hover:text-indigo-300">
+            <a th:href="@{/login}" class="font-semibold text-emerald-400 transition-colors hover:text-emerald-300">
                 Fazer login
             </a>
         </div>

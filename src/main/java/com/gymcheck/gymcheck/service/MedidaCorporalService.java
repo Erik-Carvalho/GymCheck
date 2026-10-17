@@ -33,6 +33,15 @@ public class MedidaCorporalService {
         return medidaCorporalRepository.findFirstByUsuarioIdOrderByDataDesc(usuario.getId());
     }
 
+    public Optional<Double> buscarVariacaoPeso() {
+        List<MedidaCorporal> medidasComPeso = listarTodas().stream()
+                .filter(medida -> medida.getPesoKg() != null)
+                .limit(2)
+                .toList();
+        if (medidasComPeso.size() < 2) return Optional.empty();
+        return Optional.of(medidasComPeso.get(0).getPesoKg() - medidasComPeso.get(1).getPesoKg());
+    }
+
     public MedidaCorporal salvar(MedidaCorporal medida) {
         Usuario usuario = usuarioService.getUsuarioAutenticado();
         medida.setUsuario(usuario);

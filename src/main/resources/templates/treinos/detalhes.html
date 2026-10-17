@@ -35,36 +35,30 @@
 </head>
 <body class="min-h-screen bg-slate-950 text-white antialiased break-words whitespace-normal">
     <div class="min-h-screen bg-slate-950 text-white">
-        <main class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-20">
-
-            <!-- Top Slogan -->
-            <div class="px-5 pt-4 text-center">
-                <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
-                    Treine. Registe. Evolua.
-                </span>
-            </div>
+        <main class="relative mx-auto flex min-h-screen max-w-5xl flex-col bg-gradient-to-b from-slate-900 to-slate-950 pb-10">
 
             <!-- Header Navigation -->
-            <header class="sticky top-0 z-10 flex items-center justify-between border-b border-white/5 bg-slate-900/80 px-5 py-4 backdrop-blur-md">
+            <header class="sticky top-0 z-10 flex items-center justify-between border-b border-white/5 bg-slate-900/80 px-5 py-4 backdrop-blur-md lg:px-8">
                 <a th:href="@{/treinos}" class="flex items-center gap-2 rounded-xl bg-slate-800/60 px-3 py-2 text-sm font-medium text-slate-200 ring-1 ring-white/5 transition-colors hover:bg-slate-800 active:bg-slate-800">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
                     </svg>
-                    Voltar aos Treinos
+                    Voltar aos treinos
                 </a>
+                <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Ficha de treino</span>
             </header>
 
             <!-- Workout Header -->
-            <section class="px-5 pt-6">
+            <section class="px-5 pt-7 lg:px-8 lg:pt-9">
                 <div class="flex items-start gap-3">
-                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-lg shadow-indigo-500/20">
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-400/20">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
                         </svg>
                     </div>
                     <div class="min-w-0 flex-1">
-                        <h1 class="break-words whitespace-normal text-xl font-bold leading-tight text-white" th:text="${rotina.nome}">Treino A - Peito e Tríceps</h1>
-                        <span class="mt-1.5 inline-flex break-words whitespace-normal items-center rounded-full bg-indigo-500/15 px-2.5 py-0.5 text-xs font-medium text-indigo-300 ring-1 ring-inset ring-indigo-500/20"
+                        <h1 class="break-words whitespace-normal text-2xl font-bold leading-tight text-white sm:text-3xl" th:text="${rotina.nome}">Treino A - Peito e Tríceps</h1>
+                        <span class="mt-2 inline-flex break-words whitespace-normal items-center rounded-md bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300 ring-1 ring-inset ring-white/10"
                               th:text="${rotina.descricao != null and !rotina.descricao.isEmpty() ? rotina.descricao : 'Ficha de Treino'}">
                             Hipertrofia
                         </span>
@@ -72,11 +66,11 @@
                 </div>
 
                 <!-- Configuração rápida dos Dias da Semana -->
-                <div class="mt-4 rounded-xl bg-slate-800/40 p-3 ring-1 ring-white/5">
+                <div class="mt-5 rounded-xl border border-white/10 bg-slate-900/60 p-4">
                     <form th:action="@{/treinos/rotinas/{id}/atualizar-dias(id=${rotina.id})}" method="post" class="flex flex-col gap-2" data-loading-form>
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-medium text-slate-300">Dias de execução:</span>
-                            <button type="submit" data-loading-submit data-loading-text="Salvando..." class="text-[11px] font-semibold text-indigo-400 hover:text-indigo-300">Salvar Dias</button>
+                            <button type="submit" data-loading-submit data-loading-text="Salvando..." class="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300">Salvar dias</button>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <label th:each="dia : ${todosDiasSemana}" class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer">
@@ -85,7 +79,7 @@
                                     name="diasSemana"
                                     th:value="${dia}"
                                     th:checked="${rotina.diasSemana != null and rotina.diasSemana.contains(dia)}"
-                                    class="h-3.5 w-3.5 rounded border-white/10 bg-slate-900 text-indigo-500 accent-indigo-500"
+                                    class="h-3.5 w-3.5 rounded border-white/10 bg-slate-950 text-emerald-500 accent-emerald-500"
                                 />
                                 <span th:text="${dia.descricao}">Segunda</span>
                             </label>
@@ -95,7 +89,7 @@
             </section>
 
             <!-- Alertas Flash -->
-            <div class="px-5 pt-4">
+            <div class="px-5 pt-4 lg:px-8">
                 <div th:if="${mensagemSucesso}" role="status" data-toast="success" class="flex items-center gap-2.5 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300 ring-1 ring-inset ring-emerald-500/20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
@@ -110,10 +104,12 @@
                 </div>
             </div>
 
+            <div class="grid gap-6 px-5 pt-6 lg:grid-cols-[minmax(280px,0.9fr)_minmax(0,1.5fr)] lg:items-start lg:px-8">
+            <div class="flex flex-col gap-5">
             <!-- Adicionar Exercício Form -->
-            <section class="px-5 pt-5">
-                <div class="rounded-2xl bg-slate-800/50 p-4 ring-1 ring-white/5">
-                    <h2 class="mb-4 text-sm font-semibold text-slate-300">Adicionar Exercício</h2>
+            <section>
+                <div class="rounded-xl border border-white/10 bg-slate-800/50 p-4">
+                    <h2 class="mb-4 text-sm font-semibold text-white">Adicionar exercício</h2>
                     <form th:action="@{/treinos/rotinas/{id}/adicionar-exercicio(id=${rotina.id})}" th:object="${novoItem}" method="post" class="flex flex-col gap-3" data-loading-form>
                         <div class="flex flex-col gap-1.5">
                             <label for="nomeExercicio" class="text-xs font-medium text-slate-400">Nome do Exercício</label>
@@ -123,7 +119,7 @@
                                 th:field="*{nomeExercicio}"
                                 required
                                 placeholder="Ex: Supino Reto, Agachamento..."
-                                class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             />
                         </div>
 
@@ -136,7 +132,7 @@
                                     th:field="*{series}"
                                     min="1"
                                     placeholder="4"
-                                    class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    class="w-full rounded-lg border-0 bg-slate-950 px-3 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
                             <div class="flex flex-col gap-1.5">
@@ -147,7 +143,7 @@
                                     th:field="*{repeticoes}"
                                     min="1"
                                     placeholder="10"
-                                    class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    class="w-full rounded-lg border-0 bg-slate-950 px-3 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
                             <div class="flex flex-col gap-1.5">
@@ -159,7 +155,7 @@
                                     min="0"
                                     th:field="*{peso}"
                                     placeholder="30"
-                                    class="w-full rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    class="w-full rounded-lg border-0 bg-slate-950 px-3 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
                         </div>
@@ -168,7 +164,7 @@
                             type="submit"
                             data-loading-submit
                             data-loading-text="Adicionando exercício..."
-                            class="mt-1 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-opacity hover:opacity-95 active:opacity-90"
+                            class="mt-1 flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-emerald-400"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
@@ -180,47 +176,49 @@
             </section>
 
             <!-- Observações gerais da rotina -->
-            <section class="px-5 pt-6" th:attr="data-observation-url=@{/treinos/{id}/observacao(id=${rotina.id})}">
-                <div class="rounded-2xl bg-slate-800/50 p-4 ring-1 ring-white/5">
-                    <label for="observacao-treino" class="mb-2 block text-sm font-semibold text-slate-300">Observações do Treino</label>
+            <section th:attr="data-observation-url=@{/treinos/{id}/observacao(id=${rotina.id})}">
+                <div class="rounded-xl border border-white/10 bg-slate-800/50 p-4">
+                    <label for="observacao-treino" class="mb-2 block text-sm font-semibold text-white">Observações do treino</label>
                     <textarea
                         id="observacao-treino"
                         rows="4"
                         data-workout-observation
                         th:text="${rotina.observacao}"
                         placeholder="Anotações gerais para esta ficha de treino..."
-                        class="w-full resize-y rounded-xl border-0 bg-slate-900/70 px-3.5 py-2.5 text-sm text-white shadow-inner ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        class="w-full resize-y rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     ></textarea>
                     <div class="mt-3 flex items-center justify-between gap-3">
                         <span data-observation-status role="status" aria-live="polite" class="text-xs text-slate-400">Salvo</span>
-                        <button type="button" data-save-observation class="shrink-0 rounded-xl bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-wait disabled:opacity-60">
+                        <button type="button" data-save-observation class="shrink-0 rounded-lg bg-emerald-500 px-3.5 py-2 text-xs font-semibold text-slate-950 transition-colors hover:bg-emerald-400 disabled:cursor-wait disabled:opacity-60">
                             Salvar observações
                         </button>
                     </div>
                 </div>
             </section>
+            </div>
 
+            <div class="flex flex-col gap-5">
             <!-- Lista de Exercícios -->
-            <section class="px-5 pt-6" aria-labelledby="exercicios-lista">
+            <section aria-labelledby="exercicios-lista">
                 <div class="mb-3 flex items-center justify-between">
                     <h2 id="exercicios-lista" class="text-sm font-semibold text-slate-300">Exercícios da Rotina</h2>
                     <span class="text-xs text-slate-500" th:text="${#lists.size(rotina.itens)} + ' exercícios'">0</span>
                 </div>
 
-                <div th:if="${rotina.itens == null or #lists.isEmpty(rotina.itens)}" class="rounded-2xl border border-dashed border-white/10 p-6 text-center">
+                <div th:if="${rotina.itens == null or #lists.isEmpty(rotina.itens)}" class="rounded-xl border border-dashed border-white/10 p-6 text-center">
                     <p class="text-xs text-slate-400">Nenhum exercício adicionado a esta rotina.</p>
                 </div>
 
                 <div class="sortable-list flex flex-col gap-2.5" th:attr="data-reorder-url=@{/treinos/{id}/reordenar-exercicios(id=${rotina.id})}">
-                    <div th:each="item : ${rotina.itens}" class="sortable-item flex items-start justify-between gap-3 rounded-2xl bg-slate-800/50 p-3.5 ring-1 ring-white/5" data-workout-item th:attr="data-id=${item.id}">
+                    <div th:each="item : ${rotina.itens}" class="sortable-item flex items-start justify-between gap-3 rounded-xl border border-white/10 bg-slate-800/50 p-3.5" data-workout-item th:attr="data-id=${item.id}">
                         <div class="flex min-w-0 flex-1 flex-col">
                             <span class="break-words whitespace-normal text-sm font-semibold text-white" th:text="${item.nomeExercicio}">Supino Reto</span>
                             <div class="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-400">
-                                <span><strong data-item-series class="text-indigo-400" th:text="${item.series != null ? item.series : 3}">3</strong> séries</span>
+                                <span><strong data-item-series class="text-emerald-400" th:text="${item.series != null ? item.series : 3}">3</strong> séries</span>
                                 <span class="text-slate-600">·</span>
-                                <span><strong data-item-repeticoes class="text-indigo-400" th:text="${item.repeticoes != null ? item.repeticoes : 10}">10</strong> reps</span>
+                                <span><strong data-item-repeticoes class="text-emerald-400" th:text="${item.repeticoes != null ? item.repeticoes : 10}">10</strong> reps</span>
                                 <span class="text-slate-600">·</span>
-                                <span><strong data-item-peso class="text-indigo-400" th:text="${item.peso != null ? item.peso : 0}">0</strong> kg</span>
+                                <span><strong data-item-peso class="text-emerald-400" th:text="${item.peso != null ? item.peso : 0}">0</strong> kg</span>
                             </div>
                         </div>
 
@@ -236,7 +234,7 @@
                                 th:attr="data-item-id=${item.id},data-series=${item.series != null ? item.series : 3},data-repeticoes=${item.repeticoes != null ? item.repeticoes : 10},data-peso=${item.peso != null ? item.peso : 0}"
                                 title="Editar exercício"
                                 aria-label="Editar exercício"
-                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900/60 text-slate-400 transition-colors hover:bg-indigo-500/20 hover:text-indigo-300"
+                                class="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-950 text-slate-400 transition-colors hover:bg-emerald-500/10 hover:text-emerald-300"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/>
@@ -260,24 +258,59 @@
                 </div>
             </section>
 
-            <!-- Ação: Concluir Treino (Check-in Diário) -->
-            <section class="px-5 pt-8" th:if="${rotina.itens != null and !#lists.isEmpty(rotina.itens)}">
-                <div class="rounded-2xl bg-gradient-to-br from-emerald-500/20 via-slate-800/60 to-slate-800/40 p-4 ring-1 ring-emerald-500/30">
-                    <h3 class="text-sm font-bold text-white">Treinou hoje? Registre sua sessão!</h3>
-                    <p class="mt-0.5 text-xs text-slate-400">Salva o histórico, atualiza suas cargas e recordes de PR.</p>
+            <section th:if="${!progressaoCargas.datas.isEmpty()}" class="rounded-xl border border-white/10 bg-slate-900/60 p-4" aria-labelledby="progresso-cargas">
+                <div class="mb-4">
+                    <h3 id="progresso-cargas" class="text-sm font-semibold text-white">Evolução das cargas</h3>
+                    <p class="mt-0.5 text-xs text-slate-500">Maior carga registrada por exercício em cada sessão.</p>
+                </div>
+                <div class="h-64">
+                    <canvas id="workout-progress-chart" aria-label="Gráfico de evolução de carga dos exercícios"></canvas>
+                </div>
+            </section>
 
-                    <form th:action="@{/treinos/rotinas/{id}/concluir(id=${rotina.id})}" method="post" class="mt-3 flex flex-col gap-2.5" data-loading-form>
+            <!-- Ação: Concluir Treino (Check-in Diário) -->
+            <section th:if="${rotina.itens != null and !#lists.isEmpty(rotina.itens)}">
+                <div class="rounded-xl border border-emerald-500/25 bg-emerald-500/5 p-4">
+                    <h3 class="text-sm font-bold text-white">Treinou hoje? Registre sua sessão.</h3>
+                    <p class="mt-0.5 text-xs text-slate-400">Ajuste as repetições e cargas executadas. Desmarque as séries que não fez.</p>
+
+                    <form th:action="@{/treinos/rotinas/{id}/concluir(id=${rotina.id})}" th:object="${sessaoForm}" method="post" class="mt-4 flex flex-col gap-4" data-loading-form>
+                        <div th:each="exercicioForm, exercicioStat : ${sessaoForm.exercicios}" class="rounded-lg border border-white/10 bg-slate-950/50 p-3">
+                            <input type="hidden" th:name="|exercicios[${exercicioStat.index}].itemTreinoId|" th:value="${exercicioForm.itemTreinoId}">
+                            <div class="mb-3 flex items-center justify-between gap-3">
+                                <h4 class="min-w-0 break-words text-sm font-semibold text-white" th:text="${rotina.itens[exercicioStat.index].nomeExercicio}">Supino reto</h4>
+                                <span class="shrink-0 text-[10px] font-medium uppercase tracking-wide text-slate-500">Série / reps / kg</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <div th:each="serieForm, serieStat : ${exercicioForm.series}" class="grid grid-cols-[auto_repeat(3,minmax(0,1fr))] items-end gap-2 rounded-md bg-slate-900/60 p-2">
+                                    <label class="flex h-10 items-center justify-center" th:for="|serie-feita-${exercicioStat.index}-${serieStat.index}|">
+                                        <input type="checkbox" checked value="true" th:id="|serie-feita-${exercicioStat.index}-${serieStat.index}|" th:name="|exercicios[${exercicioStat.index}].series[${serieStat.index}].realizada|" class="h-4 w-4 rounded border-slate-600 bg-slate-900 text-emerald-500 accent-emerald-500">
+                                        <span class="sr-only">Série <span th:text="${serieStat.count}">1</span> realizada</span>
+                                    </label>
+                                    <div class="min-w-0">
+                                        <label class="mb-1 block text-[10px] text-slate-500" th:for="|serie-reps-${exercicioStat.index}-${serieStat.index}|" th:text="'Série ' + ${serieStat.count}">Série 1</label>
+                                        <input type="number" min="1" required th:id="|serie-reps-${exercicioStat.index}-${serieStat.index}|" th:name="|exercicios[${exercicioStat.index}].series[${serieStat.index}].repeticoes|" th:value="${serieForm.repeticoes}" class="w-full rounded-md border-0 bg-slate-950 px-2 py-2 text-sm text-white ring-1 ring-inset ring-white/10 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                    </div>
+                                    <div class="min-w-0">
+                                        <label class="mb-1 block text-[10px] text-slate-500" th:for="|serie-carga-${exercicioStat.index}-${serieStat.index}|">Carga (kg)</label>
+                                        <input type="number" min="0" step="0.5" required th:id="|serie-carga-${exercicioStat.index}-${serieStat.index}|" th:name="|exercicios[${exercicioStat.index}].series[${serieStat.index}].pesoKg|" th:value="${serieForm.pesoKg}" class="w-full rounded-md border-0 bg-slate-950 px-2 py-2 text-sm text-white ring-1 ring-inset ring-white/10 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                    </div>
+                                    <span class="sr-only" th:text="${serieStat.count}">1</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <input
                             type="text"
-                            name="observacoesDia"
+                            th:field="*{observacoesDia}"
                             placeholder="Observações do dia (ex: treino rendeu bem, aumentei carga)"
-                            class="w-full rounded-xl border-0 bg-slate-900/80 px-3.5 py-2 text-xs text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                            class="w-full rounded-lg border-0 bg-slate-950 px-3.5 py-3 text-sm text-white ring-1 ring-inset ring-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         />
                         <button
                             type="submit"
                             data-loading-submit
                             data-loading-text="Concluindo treino..."
-                            class="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-500/20 transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                            class="flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-emerald-400"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="20 6 9 17 4 12"/>
@@ -287,36 +320,77 @@
                     </form>
                 </div>
             </section>
+            </div>
+            </div>
             <div th:replace="~{fragments/footer :: appFooter}"></div>
         </main>
     </div>
     <div data-edit-exercise-modal role="dialog" aria-modal="true" aria-labelledby="edit-exercise-title" class="fixed inset-0 z-50 hidden">
         <button type="button" data-close-edit-exercise aria-label="Fechar edição" class="fixed inset-0 h-full w-full bg-slate-950/80 backdrop-blur-sm"></button>
         <div class="fixed inset-0 z-10 flex items-center justify-center overflow-y-auto p-4">
-            <form data-edit-exercise-form class="w-full max-w-sm rounded-2xl bg-slate-900 p-5 shadow-2xl ring-1 ring-white/10">
+            <form data-edit-exercise-form class="w-full max-w-sm rounded-xl border border-white/10 bg-slate-900 p-5 shadow-2xl">
                 <h2 id="edit-exercise-title" class="text-base font-bold text-white">Editar exercício</h2>
                 <div class="mt-4 grid grid-cols-3 gap-3">
                     <div class="flex flex-col gap-1.5">
                         <label for="edit-series" class="text-xs font-medium text-slate-400">Séries</label>
-                        <input id="edit-series" name="series" type="number" min="1" step="1" required class="w-full rounded-xl border-0 bg-slate-800 px-3 py-2.5 text-sm text-white ring-1 ring-inset ring-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input id="edit-series" name="series" type="number" min="1" step="1" required class="w-full rounded-lg border-0 bg-slate-950 px-3 py-3 text-sm text-white ring-1 ring-inset ring-white/10 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div class="flex flex-col gap-1.5">
                         <label for="edit-repeticoes" class="text-xs font-medium text-slate-400">Reps</label>
-                        <input id="edit-repeticoes" name="repeticoes" type="number" min="1" step="1" required class="w-full rounded-xl border-0 bg-slate-800 px-3 py-2.5 text-sm text-white ring-1 ring-inset ring-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input id="edit-repeticoes" name="repeticoes" type="number" min="1" step="1" required class="w-full rounded-lg border-0 bg-slate-950 px-3 py-3 text-sm text-white ring-1 ring-inset ring-white/10 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div class="flex flex-col gap-1.5">
                         <label for="edit-peso" class="text-xs font-medium text-slate-400">Carga (kg)</label>
-                        <input id="edit-peso" name="peso" type="number" min="0" step="0.1" required class="w-full rounded-xl border-0 bg-slate-800 px-3 py-2.5 text-sm text-white ring-1 ring-inset ring-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input id="edit-peso" name="peso" type="number" min="0" step="0.1" required class="w-full rounded-lg border-0 bg-slate-950 px-3 py-3 text-sm text-white ring-1 ring-inset ring-white/10 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                 </div>
                 <p data-edit-exercise-status role="status" aria-live="polite" class="mt-3 min-h-4 text-xs text-slate-400"></p>
                 <div class="mt-5 flex justify-end gap-2">
-                    <button type="button" data-close-edit-exercise class="rounded-xl bg-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-700">Cancelar</button>
-                    <button type="submit" data-update-exercise class="rounded-xl bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-indigo-500 disabled:cursor-wait disabled:opacity-60">Salvar</button>
+                    <button type="button" data-close-edit-exercise class="rounded-lg bg-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-700">Cancelar</button>
+                    <button type="submit" data-update-exercise class="rounded-lg bg-emerald-500 px-3.5 py-2 text-xs font-semibold text-slate-950 hover:bg-emerald-400 disabled:cursor-wait disabled:opacity-60">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script th:inline="javascript">
+        const workoutLabels = /*[[${progressaoCargas.datas}]]*/ [];
+        const workoutSeries = /*[[${progressaoCargas.cargasPorExercicio}]]*/ {};
+        const workoutColors = ['#34d399', '#38bdf8', '#fbbf24', '#fb7185', '#a3e635', '#c084fc'];
+        const workoutCanvas = document.getElementById('workout-progress-chart');
+
+        if (workoutCanvas && workoutLabels.length && window.Chart) {
+            const workoutDatasets = Object.entries(workoutSeries).map(([label, data], index) => ({
+                label,
+                data,
+                borderColor: workoutColors[index % workoutColors.length],
+                pointBackgroundColor: workoutColors[index % workoutColors.length],
+                pointRadius: 3,
+                pointHoverRadius: 5,
+                borderWidth: 2,
+                tension: 0.3,
+                spanGaps: true
+            }));
+
+            new Chart(workoutCanvas, {
+                type: 'line',
+                data: { labels: workoutLabels, datasets: workoutDatasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1', usePointStyle: true, boxWidth: 8 } },
+                        tooltip: { enabled: true }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
+                        y: { beginAtZero: false, title: { display: true, text: 'kg', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.12)' } }
+                    }
+                }
+            });
+        }
+    </script>
     <script th:src="@{/js/gymcheck.js}" defer></script>
 </body>
 </html>

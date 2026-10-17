@@ -57,6 +57,10 @@ public class PerfilController {
         usuario.setDataNascimento(form.getDataNascimento());
         usuario.setSexo(form.getSexo());
         usuario.setAltura(form.getAltura());
+        usuario.setMetaCaloriasDia(form.getMetaCaloriasDia());
+        usuario.setMetaProteinasDia(form.getMetaProteinasDia());
+        usuario.setMetaCarboidratosDia(form.getMetaCarboidratosDia());
+        usuario.setMetaGordurasDia(form.getMetaGordurasDia());
         usuarioRepository.save(usuario);
 
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Perfil atualizado com sucesso!");
@@ -69,6 +73,10 @@ public class PerfilController {
         form.setDataNascimento(usuario.getDataNascimento());
         form.setSexo(usuario.getSexo());
         form.setAltura(usuario.getAltura());
+        form.setMetaCaloriasDia(usuario.getMetaCaloriasDia());
+        form.setMetaProteinasDia(usuario.getMetaProteinasDia());
+        form.setMetaCarboidratosDia(usuario.getMetaCarboidratosDia());
+        form.setMetaGordurasDia(usuario.getMetaGordurasDia());
         return form;
     }
 }
