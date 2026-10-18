@@ -50,7 +50,6 @@ public class PasswordRecoveryService {
                                    PasswordResetTokenRepository tokenRepository,
                                    PasswordEncoder passwordEncoder,
                                    JavaMailSender mailSender,
-                                   RestClient.Builder restClientBuilder,
                                    Clock clock,
                                    @Value("${gymcheck.base-url}") String baseUrl,
                                    @Value("${gymcheck.mail.from}") String fromAddress,
@@ -59,7 +58,7 @@ public class PasswordRecoveryService {
         this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailSender = mailSender;
-        this.brevoClient = restClientBuilder.baseUrl("https://api.brevo.com").build();
+        this.brevoClient = RestClient.create("https://api.brevo.com");
         this.brevoApiKey = brevoApiKey;
         this.clock = clock;
         this.baseUrl = baseUrl.replaceAll("/+$", "");
