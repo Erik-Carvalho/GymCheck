@@ -12,11 +12,15 @@ Pensado para **uso próprio e para um grupo limitado de usuários**, todo o ecos
 
 * **Perfil do Atleta:** Gestão de dados corporais (Nome, Data de Nascimento, Gênero, Altura) e acompanhamento de métricas.
 
-* **Registro Dinâmico de Treinos:** Checagem rápida de séries executadas, peso utilizado e repetições diretamente na academia.
+* **Treinos e Histórico:** Rotinas por dia da semana, status pendente/concluído no dashboard e registro das séries, cargas e repetições realmente executadas.
 
-* **Progressão de Cargas:** Histórico de evolução por exercício para otimização do estímulo muscular.
+* **Evolução Física:** Gráficos de progressão de cargas por exercício e histórico de peso, cintura e braço.
 
-* **Experiência PWA (Progressive Web App):** Suporte à instalação na tela inicial (Android/iOS) sem precisar baixar na App Store ou Play store, navegação em tela cheia e armazenamento de arquivos estáticos via Service Worker (`sw.js`).
+* **Dieta e Nutrição:** Registro de refeições por data, calorias e macronutrientes, com metas diárias opcionais por usuário.
+
+* **Recuperação de Senha:** Redefinição por link de uso único, com validade de 30 minutos e envio transacional pela API HTTPS do Brevo.
+
+* **Experiência PWA (Progressive Web App):** Instalação na tela inicial (Android/iOS), abertura em tela cheia e cache de recursos estáticos via Service Worker (`sw.js`). Os dados e ações da conta precisam de conexão com a internet.
 
 * **Autenticação e Segurança:** Controle de acesso com Spring Security, senhas criptografadas (`BCryptPasswordEncoder`) e proteção contra falhas de segurança comuns (CSRF, XSS).
 
@@ -31,7 +35,7 @@ Pensado para **uso próprio e para um grupo limitado de usuários**, todo o ecos
 | **Banco de Dados (Dev)** | H2 Database | Banco em memória para desenvolvimento local e testes ágeis | 
 | **Banco de Dados (Prod)** | PostgreSQL | Banco de dados relacional hospedado na nuvem (Neon.tech Serverless) | 
 | **Template Engine** | Thymeleaf | Renderização dinâmica de HTML5 no lado do servidor | 
-| **E-mail Transacional** | Brevo SMTP | Envio de e-mails de recuperação de senha |
+| **E-mail Transacional** | Brevo API (HTTPS) | Envio de e-mails de recuperação sem depender de portas SMTP |
 | **Protótipo Design do App** | Vercel | Protótipo estático/UI das telas do app para validação visual |
 | **Estilização / UI** | Tailwind CSS | Framework utilitário para layout responsivo e mobile-first | 
 | **PWA & Client-Side** | Service Workers & Web App Manifest | Suporte a instalação no sistema operacional e navegação offline basica | 
@@ -145,15 +149,10 @@ Para realizar o deploy no Render conectado ao banco PostgreSQL no Neon.tech, adi
 | `SPRING_DATASOURCE_USERNAME` | Usuário do banco no Neon | `neondb_owner` | 
 | `SPRING_DATASOURCE_PASSWORD` | Senha de acesso do Neon | `sua_senha` | 
 | `GYMCHECK_BASE_URL` | URL pública usada nos links de recuperação | `https://seu-app.onrender.com` |
-| `MAIL_HOST` | Servidor SMTP para envio de e-mails | `smtp.seuprovedor.com` |
-| `MAIL_PORT` | Porta SMTP | `587` |
-| `MAIL_USERNAME` | Usuário SMTP | `seu-usuario` |
-| `MAIL_PASSWORD` | Senha ou token SMTP | `seu-token-smtp` |
-| `MAIL_FROM` | Endereço remetente verificado no provedor | `noreply@seudominio.com` |
-| `MAIL_SMTP_AUTH` | Ativa autenticação SMTP | `true` |
-| `MAIL_SMTP_STARTTLS` | Ativa STARTTLS (comum na porta 587) | `true` |
+| `BREVO_API_KEY` | Chave da API transacional v3 do Brevo (não é a chave SMTP) | `xkeysib-...` |
+| `MAIL_FROM` | Endereço remetente verificado no Brevo | `noreply@seudominio.com` |
 
-Configure as credenciais SMTP como variáveis secretas no Render. Sem um servidor SMTP válido, os pedidos de recuperação continuam respondendo de forma genérica, mas os e-mails não serão entregues.
+No Render Free, configure `BREVO_API_KEY` e `MAIL_FROM`. A aplicação envia pela API HTTPS do Brevo, evitando as portas SMTP bloqueadas nesse plano. Gere uma chave de API v3 no painel do Brevo e confirme que `MAIL_FROM` é um remetente verificado. Salve a chave como variável secreta; não a inclua no código ou no repositório. A resposta da recuperação é genérica por segurança; confira os logs do serviço para diagnosticar falhas de envio.
 
 **DICA**
 Para remover o ColdStart padrão do Render, estou utilizando o UptimeRobot que faz uma requisição a cada 5 minutos, mantendo o contêiner sempre ativo na memória, evitando que a aplicação entre em modo Deep Sleep.
