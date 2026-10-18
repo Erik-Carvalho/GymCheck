@@ -13,6 +13,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -23,7 +26,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.HexFormat;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Service
 public class PasswordRecoveryService {
@@ -35,6 +40,8 @@ public class PasswordRecoveryService {
     private final PasswordResetTokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
+    private final RestClient brevoClient;
+    private final String brevoApiKey;
     private final Clock clock;
     private final String baseUrl;
     private final String fromAddress;
@@ -43,13 +50,17 @@ public class PasswordRecoveryService {
                                    PasswordResetTokenRepository tokenRepository,
                                    PasswordEncoder passwordEncoder,
                                    JavaMailSender mailSender,
+                                   RestClient.Builder restClientBuilder,
                                    Clock clock,
                                    @Value("${gymcheck.base-url}") String baseUrl,
-                                   @Value("${gymcheck.mail.from}") String fromAddress) {
+                                   @Value("${gymcheck.mail.from}") String fromAddress,
+                                   @Value("${brevo.api-key:}") String brevoApiKey) {
         this.usuarioRepository = usuarioRepository;
         this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailSender = mailSender;
+        this.brevoClient = restClientBuilder.baseUrl("https://api.brevo.com").build();
+        this.brevoApiKey = brevoApiKey;
         this.clock = clock;
         this.baseUrl = baseUrl.replaceAll("/+$", "");
         this.fromAddress = fromAddress;
@@ -82,8 +93,22 @@ public class PasswordRecoveryService {
                 + "\n\nSe você não solicitou essa alteração, ignore este e-mail.");
 
         try {
-            mailSender.send(mensagem);
-        } catch (MailException exception) {
+            if (brevoApiKey != null && !brevoApiKey.isBlank()) {
+                brevoClient.post()
+                        .uri("/v3/smtp/email")
+                        .header("api-key", brevoApiKey)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Map.of(
+                                "sender", Map.of("name", "GymCheck", "email", fromAddress),
+                                "to", List.of(Map.of("email", usuario.getEmail())),
+                                "subject", mensagem.getSubject(),
+                                "textContent", mensagem.getText()))
+                        .retrieve()
+                        .toBodilessEntity();
+            } else {
+                mailSender.send(mensagem);
+            }
+        } catch (MailException | RestClientException exception) {
             tokenRepository.delete(token);
             logger.warn("Não foi possível enviar recuperação de senha para usuarioId={}", usuario.getId(), exception);
         }
